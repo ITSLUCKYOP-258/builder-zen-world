@@ -128,17 +128,40 @@ export default function AdminDashboard() {
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="font-poppins font-bold text-3xl text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground">Manage your S2 Wear products and inventory</p>
+            <h1 className="font-poppins font-bold text-3xl text-foreground">Admin Dashboard</h1>
+            <p className="text-muted-foreground">Manage your S2 Wear products and inventory without touching any code</p>
           </div>
-          
+
           <Link to="/admin/products/new">
             <Button size="lg" className="shadow-soft">
               <Plus className="h-5 w-5 mr-2" />
-              Add Product
+              Add New Product
             </Button>
           </Link>
         </div>
+
+        {/* Quick Guide */}
+        <Card className="border-0 bg-gradient-to-r from-primary/5 to-orange-500/5 shadow-soft mb-8">
+          <CardContent className="p-6">
+            <h2 className="font-poppins font-semibold text-lg text-foreground mb-3">
+              🚀 Quick Start Guide
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">➕ Add Products</h3>
+                <p className="text-muted-foreground">Click "Add New Product" to create products with images, descriptions, sizes, and colors</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">✏️ Edit Products</h3>
+                <p className="text-muted-foreground">Click "Edit" on any product to modify details, update images, or change pricing</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">🗑️ Remove Products</h3>
+                <p className="text-muted-foreground">Use "Delete" to remove products that are no longer available</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
