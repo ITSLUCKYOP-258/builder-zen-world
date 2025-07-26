@@ -91,20 +91,20 @@ export default function Cart() {
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => handleUpdateQuantity(item.id, item.size, item.color, item.quantity - 1)}
                         className="h-8 w-8"
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
-                      
+
                       <span className="w-8 text-center font-medium">
                         {item.quantity}
                       </span>
-                      
+
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => handleUpdateQuantity(item.id, item.size, item.color, item.quantity + 1)}
                         className="h-8 w-8"
                       >
                         <Plus className="h-3 w-3" />
