@@ -287,26 +287,34 @@ export default function ProductForm() {
           <Card className="border-0 shadow-soft">
             <CardHeader>
               <CardTitle>Product Images</CardTitle>
+              <p className="text-sm text-muted-foreground">Upload high-quality images that showcase your product from different angles</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="images">Upload Images</Label>
-                <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                <Label htmlFor="images">Upload Product Images (Recommended: 3-5 images)</Label>
+                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
                   <input
                     type="file"
                     id="images"
                     multiple
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp"
                     onChange={handleImageUpload}
                     className="hidden"
                     disabled={uploadingImages}
                   />
                   <label htmlFor="images" className="cursor-pointer">
-                    <div className="space-y-2">
-                      <ImageIcon className="h-8 w-8 text-muted-foreground mx-auto" />
-                      <p className="text-sm text-muted-foreground">
-                        {uploadingImages ? 'Uploading...' : 'Click to upload images or drag and drop'}
-                      </p>
+                    <div className="space-y-3">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                        <ImageIcon className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-base font-medium text-foreground">
+                          {uploadingImages ? 'Uploading images...' : 'Click to upload product images'}
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          PNG, JPG, WEBP up to 10MB each. First image will be the main product image.
+                        </p>
+                      </div>
                     </div>
                   </label>
                 </div>
