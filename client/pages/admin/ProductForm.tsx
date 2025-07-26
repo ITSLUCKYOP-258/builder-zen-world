@@ -349,19 +349,29 @@ export default function ProductForm() {
           <Card className="border-0 shadow-soft">
             <CardHeader>
               <CardTitle>Available Sizes</CardTitle>
+              <p className="text-sm text-muted-foreground">Select all sizes that will be available for this product</p>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
                 {SIZES.map(size => (
                   <Button
                     key={size}
                     type="button"
                     variant={formData.sizes.includes(size) ? "default" : "outline"}
                     onClick={() => toggleSize(size)}
+                    className="h-12 text-base font-medium"
                   >
                     {size}
                   </Button>
                 ))}
+              </div>
+              <div className="bg-accent/50 p-4 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  <strong>Selected sizes:</strong> {formData.sizes.length > 0 ? formData.sizes.join(', ') : 'None selected'}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Tip: Most products should offer at least S, M, L, and XL sizes
+                </p>
               </div>
             </CardContent>
           </Card>
