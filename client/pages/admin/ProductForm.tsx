@@ -262,6 +262,14 @@ export default function ProductForm() {
           <p className="text-muted-foreground">
             {isEdit ? 'Update product details and inventory' : 'Create a new product for your store'}
           </p>
+
+          {/* Status indicator */}
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              💡 <strong>Admin Panel Status:</strong> Your product data will be saved {' '}
+              (Firebase integration active with localStorage fallback for reliability)
+            </p>
+          </div>
         </div>
 
         {error && (
