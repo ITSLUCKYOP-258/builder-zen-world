@@ -10,7 +10,7 @@ const initialCartItems = [
     id: 1,
     name: "Premium Cotton T-Shirt",
     price: 29.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
     size: "L",
     color: "White",
     quantity: 2
@@ -19,7 +19,7 @@ const initialCartItems = [
     id: 2,
     name: "Cozy Pullover Hoodie",
     price: 59.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
     size: "M",
     color: "Gray",
     quantity: 1
