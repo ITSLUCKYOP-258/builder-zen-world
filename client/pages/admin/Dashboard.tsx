@@ -35,7 +35,37 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       const productsData = await getProducts();
-      setProducts(productsData);
+
+      // If no products in Firebase, show sample products for demo
+      if (productsData.length === 0) {
+        const sampleProducts = [
+          {
+            id: 'sample-1',
+            name: "Premium Cotton T-Shirt",
+            price: 29.99,
+            description: "Made from 100% organic cotton with a classic fit",
+            category: "T-Shirts",
+            sizes: ["S", "M", "L", "XL"],
+            colors: [{ name: "White", value: "#FFFFFF" }, { name: "Black", value: "#000000" }],
+            images: ["https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800"],
+            features: ["100% Organic Cotton", "Machine Washable"]
+          },
+          {
+            id: 'sample-2',
+            name: "Cozy Pullover Hoodie",
+            price: 59.99,
+            description: "Comfortable hoodie perfect for casual wear",
+            category: "Hoodies",
+            sizes: ["M", "L", "XL"],
+            colors: [{ name: "Gray", value: "#6B7280" }],
+            images: ["https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800"],
+            features: ["Cotton Blend", "Kangaroo Pocket"]
+          }
+        ];
+        setProducts(sampleProducts);
+      } else {
+        setProducts(productsData);
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to load products');
     } finally {
