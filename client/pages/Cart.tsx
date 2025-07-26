@@ -7,23 +7,15 @@ import { useCart } from '@/hooks/useCart'
 export default function Cart() {
   const { items: cartItems, updateQuantity, removeItem, totalPrice, itemCount } = useCart()
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      removeItem(id)
-      return
-    }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    )
+  const handleUpdateQuantity = (id: number, size: string, color: string, newQuantity: number) => {
+    updateQuantity(id, size, color, newQuantity)
   }
 
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id))
+  const handleRemoveItem = (id: number, size: string, color: string) => {
+    removeItem(id, size, color)
   }
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const subtotal = totalPrice
   const shipping = subtotal > 50 ? 0 : 9.99
   const total = subtotal + shipping
 
