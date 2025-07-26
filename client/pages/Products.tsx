@@ -91,9 +91,10 @@ export default function Products() {
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={category === "All" ? "default" : "outline"}
+                variant={category === selectedCategory ? "default" : "outline"}
                 size="sm"
                 className="rounded-full"
+                onClick={() => setSelectedCategory(category)}
               >
                 {category}
               </Button>
