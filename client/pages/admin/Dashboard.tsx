@@ -1,0 +1,236 @@
+import { useState, useEffect } from 'react';
+import { Navigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/useAuth';
+import { getProducts, deleteProduct, type Product } from '@/services/products';
+import { 
+  Package, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  LogOut, 
+  DollarSign,
+  ShoppingBag,
+  TrendingUp
+} from 'lucide-react';
+
+export default function AdminDashboard() {
+  const { user, logout } = useAuth();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Redirect if not logged in
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      const productsData = await getProducts();
+      setProducts(productsData);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load products');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+    
+    try {
+      await deleteProduct(id);
+      setProducts(products.filter(p => p.id !== id));
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete product');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err: any) {
+      console.error('Failed to logout:', err);
+    }
+  };
+
+  const totalProducts = products.length;
+  const totalValue = products.reduce((sum, product) => sum + product.price, 0);
+  const avgPrice = totalProducts > 0 ? totalValue / totalProducts : 0;
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <Link to="/" className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">S2</span>
+                </div>
+                <span className="font-poppins font-bold text-xl text-foreground">S2 Wear Admin</span>
+              </Link>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-muted-foreground">
+                Welcome, {user.email}
+              </span>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="font-poppins font-bold text-3xl text-foreground">Dashboard</h1>
+            <p className="text-muted-foreground">Manage your S2 Wear products and inventory</p>
+          </div>
+          
+          <Link to="/admin/products/new">
+            <Button size="lg" className="shadow-soft">
+              <Plus className="h-5 w-5 mr-2" />
+              Add Product
+            </Button>
+          </Link>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="border-0 bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Package className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Products</p>
+                  <p className="font-poppins font-bold text-2xl text-foreground">{totalProducts}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Average Price</p>
+                  <p className="font-poppins font-bold text-2xl text-foreground">${avgPrice.toFixed(2)}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Value</p>
+                  <p className="font-poppins font-bold text-2xl text-foreground">${totalValue.toFixed(2)}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Products Table */}
+        <Card className="border-0 bg-card shadow-soft">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <ShoppingBag className="h-5 w-5" />
+              <span>Products</span>
+            </CardTitle>
+            <CardDescription>
+              Manage your product inventory and details
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Loading products...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-8">
+                <p className="text-destructive">{error}</p>
+                <Button variant="outline" onClick={loadProducts} className="mt-4">
+                  Try Again
+                </Button>
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-8">
+                <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground mb-4">No products found</p>
+                <Link to="/admin/products/new">
+                  <Button>Add Your First Product</Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {products.map((product) => (
+                  <div key={product.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={product.images[0] || '/placeholder.svg'}
+                        alt={product.name}
+                        className="w-16 h-16 object-cover rounded-lg bg-accent"
+                      />
+                      <div>
+                        <h3 className="font-poppins font-semibold text-foreground">{product.name}</h3>
+                        <p className="text-sm text-muted-foreground">{product.category}</p>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className="font-semibold text-foreground">${product.price}</span>
+                          <Badge variant="secondary">{product.sizes.length} sizes</Badge>
+                          <Badge variant="outline">{product.colors.length} colors</Badge>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Link to={`/admin/products/edit/${product.id}`}>
+                        <Button variant="outline" size="sm">
+                          <Edit className="h-4 w-4 mr-2" />
+                          Edit
+                        </Button>
+                      </Link>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleDeleteProduct(product.id!)}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
