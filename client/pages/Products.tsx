@@ -83,6 +83,12 @@ export default function Products() {
           <p className="text-muted-foreground max-w-2xl">
             Discover our complete collection of premium clothing designed for comfort, style, and sustainability.
           </p>
+          <div className="mt-4">
+            <span className="text-sm text-muted-foreground">
+              Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+              {selectedCategory !== "All" && ` in ${selectedCategory}`}
+            </span>
+          </div>
         </div>
 
         {/* Filters */}
