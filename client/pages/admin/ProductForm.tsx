@@ -96,18 +96,49 @@ export default function ProductForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submission started');
+    console.log('Form data:', formData);
+
     setLoading(true);
     setError('');
 
+    // Basic validation
+    if (!formData.name.trim()) {
+      setError('Product name is required');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.price <= 0) {
+      setError('Price must be greater than 0');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.sizes.length === 0) {
+      setError('Please select at least one size');
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log('Attempting to save product...');
       if (isEdit && id) {
+        console.log('Updating product with ID:', id);
         await updateProduct(id, formData);
+        console.log('Product updated successfully');
       } else {
-        await addProduct(formData);
+        console.log('Adding new product');
+        const newId = await addProduct(formData);
+        console.log('Product added successfully with ID:', newId);
       }
+
+      // Show success message
+      alert(isEdit ? 'Product updated successfully!' : 'Product added successfully!');
       navigate('/admin/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Failed to save product');
+      console.error('Error saving product:', err);
+      setError(err.message || 'Failed to save product. Please check your Firebase configuration.');
     } finally {
       setLoading(false);
     }
