@@ -124,8 +124,9 @@ export default function AdminLogin() {
               </Button>
             </form>
 
-            <div className="text-center text-sm text-muted-foreground">
-              <Link to="/" className="hover:text-primary transition-colors">
+            <div className="text-center text-sm text-muted-foreground space-y-2">
+              <p>Need an account? <Link to="/admin/signup" className="text-primary hover:underline">Create one</Link></p>
+              <Link to="/" className="hover:text-primary transition-colors block">
                 ← Back to Store
               </Link>
             </div>
