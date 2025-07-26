@@ -116,13 +116,21 @@ export default function AdminDashboard() {
             
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">
-                Welcome, {user.email}
+                Welcome, {user?.email || 'Demo Mode'}
               </span>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+              {user ? (
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              ) : (
+                <Link to="/admin/login">
+                  <Button variant="outline" size="sm">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Login
+                  </Button>
+                </Link>
+              )}</div>
           </div>
         </div>
       </header>
