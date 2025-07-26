@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Star, ShoppingCart, Heart, ArrowLeft, Check } from 'lucide-react'
 import { useState } from 'react'
+import { useCart } from '@/hooks/useCart'
 
 // Mock product data
 const product = {
