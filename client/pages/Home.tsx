@@ -61,6 +61,7 @@ const features = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const { addItem } = useCart()
 
   // Auto-rotate carousel
   useEffect(() => {
