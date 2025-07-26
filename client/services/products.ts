@@ -41,14 +41,24 @@ export async function getProducts(): Promise<Product[]> {
     const productsRef = collection(db, PRODUCTS_COLLECTION);
     const q = query(productsRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
-    
+
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as Product[];
   } catch (error) {
-    console.error('Error getting products:', error);
-    throw error;
+    console.error('Error getting products from Firebase, using localStorage fallback:', error);
+
+    // Fallback to localStorage
+    const localProducts = localStorage.getItem('s2-wear-products');
+    if (localProducts) {
+      try {
+        return JSON.parse(localProducts);
+      } catch {
+        return [];
+      }
+    }
+    return [];
   }
 }
 
