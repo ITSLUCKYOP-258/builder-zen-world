@@ -140,7 +140,7 @@ export default function Cart() {
 
                 <div className="space-y-3">
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                    <span>Subtotal ({itemCount} items)</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
                   
