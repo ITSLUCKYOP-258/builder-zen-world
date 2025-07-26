@@ -10,7 +10,7 @@ const featuredProducts = [
     id: 1,
     name: "Premium Cotton T-Shirt",
     price: 29.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.8,
     category: "T-Shirts"
   },
@@ -18,7 +18,7 @@ const featuredProducts = [
     id: 2,
     name: "Cozy Pullover Hoodie",
     price: 59.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.9,
     category: "Hoodies"
   },
@@ -26,7 +26,7 @@ const featuredProducts = [
     id: 3,
     name: "Classic Denim Jacket",
     price: 89.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/6276009/pexels-photo-6276009.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.7,
     category: "Jackets"
   },
@@ -34,7 +34,7 @@ const featuredProducts = [
     id: 4,
     name: "Vintage Logo Sweatshirt",
     price: 49.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.8,
     category: "Sweatshirts"
   }
