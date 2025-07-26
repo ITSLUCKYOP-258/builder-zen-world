@@ -14,6 +14,7 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import AdminLogin from "./pages/admin/Login";
+import AdminSignup from "./pages/admin/Signup";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ProductForm from "./pages/admin/ProductForm";
 import NotFound from "./pages/NotFound";
