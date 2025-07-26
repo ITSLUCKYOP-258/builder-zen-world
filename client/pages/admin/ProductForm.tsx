@@ -48,13 +48,13 @@ export default function ProductForm() {
   // Form state
   const [formData, setFormData] = useState<Omit<Product, 'id'>>({
     name: '',
-    price: 0,
+    price: 29.99, // Default price
     description: '',
     category: CATEGORIES[0],
-    sizes: [],
-    colors: [],
+    sizes: ['M', 'L'], // Default common sizes
+    colors: [{ name: 'White', value: '#FFFFFF' }], // Default color
     images: [],
-    features: []
+    features: ['100% Cotton', 'Machine Washable'] // Default features
   });
 
   const [newFeature, setNewFeature] = useState('');
