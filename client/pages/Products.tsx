@@ -65,6 +65,13 @@ const products = [
 const categories = ["All", "T-Shirts", "Hoodies", "Jackets", "Sweatshirts", "Pants"]
 
 export default function Products() {
+  const [selectedCategory, setSelectedCategory] = useState("All")
+
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === "All"
+    ? products
+    : products.filter(product => product.category === selectedCategory)
+
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
