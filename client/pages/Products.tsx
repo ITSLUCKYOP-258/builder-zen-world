@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Star, Filter } from 'lucide-react'
+import { Star, Filter, ShoppingCart } from 'lucide-react'
+import { useCart } from '@/hooks/useCart'
 
 // Mock products data
 const products = [
