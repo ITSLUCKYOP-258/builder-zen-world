@@ -470,18 +470,29 @@ export default function ProductForm() {
           <Card className="border-0 shadow-soft">
             <CardHeader>
               <CardTitle>Product Features</CardTitle>
+              <p className="text-sm text-muted-foreground">Highlight key features and benefits of your product</p>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex space-x-2">
-                <Input
-                  placeholder="Add a feature (e.g., 100% Cotton)"
-                  value={newFeature}
-                  onChange={(e) => setNewFeature(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
-                />
-                <Button type="button" onClick={addFeature}>
-                  <Plus className="h-4 w-4" />
-                </Button>
+              <div className="space-y-2">
+                <Label>Add Product Feature</Label>
+                <div className="flex space-x-2">
+                  <Input
+                    placeholder="Enter a feature (e.g., 100% Organic Cotton, Machine Washable)"
+                    value={newFeature}
+                    onChange={(e) => setNewFeature(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    onClick={addFeature}
+                    disabled={!newFeature.trim()}
+                    className="px-6"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add
+                  </Button>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
