@@ -1,0 +1,225 @@
+import { Link } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react'
+import { useState } from 'react'
+
+// Mock cart items
+const initialCartItems = [
+  {
+    id: 1,
+    name: "Premium Cotton T-Shirt",
+    price: 29.99,
+    image: "/placeholder.svg",
+    size: "L",
+    color: "White",
+    quantity: 2
+  },
+  {
+    id: 2,
+    name: "Cozy Pullover Hoodie",
+    price: 59.99,
+    image: "/placeholder.svg",
+    size: "M",
+    color: "Gray",
+    quantity: 1
+  }
+]
+
+export default function Cart() {
+  const [cartItems, setCartItems] = useState(initialCartItems)
+
+  const updateQuantity = (id: number, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeItem(id)
+      return
+    }
+    setCartItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    )
+  }
+
+  const removeItem = (id: number) => {
+    setCartItems(items => items.filter(item => item.id !== id))
+  }
+
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const shipping = subtotal > 50 ? 0 : 9.99
+  const total = subtotal + shipping
+
+  const handleWhatsAppCheckout = () => {
+    const orderDetails = cartItems.map(item => 
+      `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - $${(item.price * item.quantity).toFixed(2)}`
+    ).join('\n')
+    
+    const message = `Hi! I'd like to place an order:\n\n${orderDetails}\n\nSubtotal: $${subtotal.toFixed(2)}\nShipping: $${shipping.toFixed(2)}\nTotal: $${total.toFixed(2)}\n\nPlease let me know how to proceed with payment and delivery. Thank you!`
+    
+    const phoneNumber = "1234567890" // Replace with actual WhatsApp number
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+    
+    window.open(whatsappUrl, '_blank')
+  }
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="min-h-screen py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center py-16">
+            <ShoppingBag className="h-24 w-24 text-muted-foreground mx-auto mb-6" />
+            <h1 className="font-poppins font-bold text-3xl text-foreground mb-4">
+              Your cart is empty
+            </h1>
+            <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+              Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
+            </p>
+            <Link to="/products">
+              <Button size="lg">
+                Start Shopping
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="font-poppins font-bold text-3xl lg:text-4xl text-foreground mb-8">
+          Shopping Cart
+        </h1>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Cart Items */}
+          <div className="lg:col-span-2 space-y-4">
+            {cartItems.map((item) => (
+              <Card key={`${item.id}-${item.size}-${item.color}`} className="border-0 bg-card">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 object-cover rounded-lg bg-accent"
+                    />
+                    
+                    <div className="flex-1 space-y-2">
+                      <h3 className="font-poppins font-semibold text-foreground">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Size: {item.size} • Color: {item.color}
+                      </p>
+                      <p className="font-semibold text-foreground">
+                        ${item.price.toFixed(2)}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      
+                      <span className="w-8 text-center font-medium">
+                        {item.quantity}
+                      </span>
+                      
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-3 w-3" />
+                      </Button>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="font-poppins font-semibold text-foreground">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeItem(item.id)}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-1">
+            <Card className="border-0 bg-card sticky top-24">
+              <CardContent className="p-6 space-y-6">
+                <h2 className="font-poppins font-semibold text-xl text-foreground">
+                  Order Summary
+                </h2>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Shipping</span>
+                    <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  </div>
+                  
+                  {subtotal < 50 && (
+                    <p className="text-sm text-muted-foreground">
+                      Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                    </p>
+                  )}
+                  
+                  <div className="border-t border-border pt-3">
+                    <div className="flex justify-between font-poppins font-semibold text-lg text-foreground">
+                      <span>Total</span>
+                      <span>${total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button 
+                    className="w-full shadow-soft-lg"
+                    size="lg"
+                    onClick={handleWhatsAppCheckout}
+                  >
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    Checkout via WhatsApp
+                  </Button>
+                  
+                  <p className="text-xs text-muted-foreground text-center">
+                    Complete your order through WhatsApp for personalized service
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <Link to="/products">
+                    <Button variant="outline" className="w-full">
+                      Continue Shopping
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
