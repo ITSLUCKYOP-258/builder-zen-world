@@ -183,11 +183,13 @@ export default function Products() {
         )}
 
         {/* Load More */}
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="px-8">
-            Load More Products
-          </Button>
-        </div>
+        {filteredProducts.length > 0 && (
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg" className="px-8">
+              Load More Products
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )
