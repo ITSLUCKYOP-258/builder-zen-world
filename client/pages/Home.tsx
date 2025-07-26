@@ -188,11 +188,30 @@ export default function Home() {
                       <span className="font-poppins font-semibold text-lg text-foreground">
                         ${product.price}
                       </span>
-                      <Link to={`/product/${product.id}`}>
-                        <Button size="sm" variant="outline" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                          View Details
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            addItem({
+                              id: product.id,
+                              name: product.name,
+                              price: product.price,
+                              image: product.image,
+                              size: 'M', // Default size for quick add
+                              color: 'White' // Default color
+                            })
+                          }}
+                          className="group-hover:shadow-md transition-shadow"
+                        >
+                          <ShoppingCart className="h-4 w-4" />
                         </Button>
-                      </Link>
+                        <Link to={`/product/${product.id}`}>
+                          <Button size="sm" variant="outline" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            View Details
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
