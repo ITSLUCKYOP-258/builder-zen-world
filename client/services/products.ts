@@ -121,11 +121,19 @@ export async function updateProduct(id: string, product: Partial<Product>): Prom
       ...product,
       updatedAt: new Date()
     };
-    
+
     await updateDoc(docRef, updateData);
   } catch (error) {
-    console.error('Error updating product:', error);
-    throw error;
+    console.error('Error updating product in Firebase, using localStorage fallback:', error);
+
+    // Fallback to localStorage
+    const existingProducts = await getProducts();
+    const updatedProducts = existingProducts.map(p =>
+      p.id === id
+        ? { ...p, ...product, updatedAt: new Date() }
+        : p
+    );
+    localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
   }
 }
 
