@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { ArrowRight, Star, Truck, Shield, Recycle } from 'lucide-react'
+import { ArrowRight, Star, Truck, Shield, Recycle, ShoppingCart } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useCart } from '@/hooks/useCart'
 
 // Mock featured products data
 const featuredProducts = [
