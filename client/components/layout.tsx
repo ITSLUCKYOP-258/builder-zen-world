@@ -11,6 +11,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const { theme, setTheme } = useTheme()
+  const { itemCount } = useCart()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const toggleTheme = () => {
