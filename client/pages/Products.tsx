@@ -9,7 +9,7 @@ const products = [
     id: 1,
     name: "Premium Cotton T-Shirt",
     price: 29.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.8,
     category: "T-Shirts",
     colors: ["White", "Black", "Navy"]
@@ -18,7 +18,7 @@ const products = [
     id: 2,
     name: "Cozy Pullover Hoodie",
     price: 59.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.9,
     category: "Hoodies",
     colors: ["Gray", "Black", "Maroon"]
@@ -27,7 +27,7 @@ const products = [
     id: 3,
     name: "Classic Denim Jacket",
     price: 89.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/6276009/pexels-photo-6276009.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.7,
     category: "Jackets",
     colors: ["Blue", "Black"]
@@ -36,7 +36,7 @@ const products = [
     id: 4,
     name: "Vintage Logo Sweatshirt",
     price: 49.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.8,
     category: "Sweatshirts",
     colors: ["White", "Gray", "Navy"]
@@ -45,7 +45,7 @@ const products = [
     id: 5,
     name: "Essential Polo Shirt",
     price: 39.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/4887245/pexels-photo-4887245.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.6,
     category: "T-Shirts",
     colors: ["White", "Black", "Blue"]
@@ -54,7 +54,7 @@ const products = [
     id: 6,
     name: "Comfort Fit Jeans",
     price: 79.99,
-    image: "/placeholder.svg",
+    image: "https://images.pexels.com/photos/10206444/pexels-photo-10206444.jpeg?auto=compress&cs=tinysrgb&w=800",
     rating: 4.8,
     category: "Pants",
     colors: ["Blue", "Black", "Gray"]
