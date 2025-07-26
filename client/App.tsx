@@ -38,6 +38,7 @@ const App = () => (
 
               {/* Admin routes without main layout */}
               <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/signup" element={<AdminSignup />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/products/new" element={<ProductForm />} />
               <Route path="/admin/products/edit/:id" element={<ProductForm />} />
