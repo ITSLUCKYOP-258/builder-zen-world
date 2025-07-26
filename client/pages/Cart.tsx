@@ -4,30 +4,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 
-// Mock cart items
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Premium Cotton T-Shirt",
-    price: 29.99,
-    image: "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
-    size: "L",
-    color: "White",
-    quantity: 2
-  },
-  {
-    id: 2,
-    name: "Cozy Pullover Hoodie",
-    price: 59.99,
-    image: "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
-    size: "M",
-    color: "Gray",
-    quantity: 1
-  }
-]
-
 export default function Cart() {
-  const [cartItems, setCartItems] = useState(initialCartItems)
+  const { items: cartItems, updateQuantity, removeItem, totalPrice, itemCount } = useCart()
 
   const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity <= 0) {
