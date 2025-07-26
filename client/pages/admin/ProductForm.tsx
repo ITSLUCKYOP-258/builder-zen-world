@@ -148,11 +148,28 @@ export default function ProductForm() {
     const files = e.target.files;
     if (!files) return;
 
+    console.log('Starting image upload for', files.length, 'files');
     setUploadingImages(true);
+    setError('');
+
     try {
-      const uploadPromises = Array.from(files).map(async (file) => {
-        const tempId = Date.now().toString();
-        return await uploadProductImage(file, tempId);
+      const uploadPromises = Array.from(files).map(async (file, index) => {
+        console.log(`Uploading file ${index + 1}:`, file.name, 'Size:', file.size);
+
+        // Validate file size (10MB limit)
+        if (file.size > 10 * 1024 * 1024) {
+          throw new Error(`File ${file.name} is too large. Maximum size is 10MB.`);
+        }
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          throw new Error(`File ${file.name} is not a valid image file.`);
+        }
+
+        const tempId = `${Date.now()}-${index}`;
+        const url = await uploadProductImage(file, tempId);
+        console.log(`File ${file.name} uploaded successfully:`, url);
+        return url;
       });
 
       const urls = await Promise.all(uploadPromises);
@@ -160,8 +177,14 @@ export default function ProductForm() {
         ...prev,
         images: [...prev.images, ...urls]
       }));
+
+      console.log('All images uploaded successfully');
+
+      // Clear the file input
+      e.target.value = '';
     } catch (err: any) {
-      setError(err.message || 'Failed to upload images');
+      console.error('Image upload error:', err);
+      setError(err.message || 'Failed to upload images. Please check your internet connection and try again.');
     } finally {
       setUploadingImages(false);
     }
