@@ -27,8 +27,9 @@ const App = () => (
     <TooltipProvider>
       <ThemeProvider defaultTheme="light" storageKey="s2-wear-theme">
         <AuthProvider>
-          <Toaster />
-          <Sonner />
+          <CartProvider>
+            <Toaster />
+            <Sonner />
           <BrowserRouter>
             <Routes>
               {/* Public routes with layout */}
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="*" element={<Layout><NotFound /></Layout>} />
             </Routes>
           </BrowserRouter>
+          </CartProvider>
         </AuthProvider>
       </ThemeProvider>
     </TooltipProvider>
