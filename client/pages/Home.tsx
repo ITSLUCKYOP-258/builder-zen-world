@@ -129,7 +129,7 @@ export default function Home() {
             <div className="relative">
               <div className="relative z-10">
                 <img
-                  src="/placeholder.svg"
+                  src="https://images.pexels.com/photos/5705482/pexels-photo-5705482.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="S2 Wear Collection"
                   className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-soft-lg"
                 />
