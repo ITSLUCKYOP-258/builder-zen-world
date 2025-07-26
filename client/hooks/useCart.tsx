@@ -55,6 +55,7 @@ export function CartProvider({ children }: CartProviderProps) {
   }, [items]);
 
   const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
+    console.log('🛒 Adding item to cart:', newItem);
     setItems(currentItems => {
       // Check if item with same id, size, and color already exists
       const existingItemIndex = currentItems.findIndex(
@@ -68,10 +69,13 @@ export function CartProvider({ children }: CartProviderProps) {
           ...updatedItems[existingItemIndex],
           quantity: updatedItems[existingItemIndex].quantity + 1
         };
+        console.log('🔄 Updated existing item quantity:', updatedItems[existingItemIndex]);
         return updatedItems;
       } else {
         // Add new item
-        return [...currentItems, { ...newItem, quantity: 1 }];
+        const newItems = [...currentItems, { ...newItem, quantity: 1 }];
+        console.log('✅ Added new item to cart. Total items:', newItems.length);
+        return newItems;
       }
     });
   };
