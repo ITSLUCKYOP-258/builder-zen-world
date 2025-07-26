@@ -90,12 +90,26 @@ export async function addProduct(product: Omit<Product, 'id'>): Promise<string> 
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    
+
     const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), productData);
     return docRef.id;
   } catch (error) {
-    console.error('Error adding product:', error);
-    throw error;
+    console.error('Error adding product to Firebase, using localStorage fallback:', error);
+
+    // Fallback to localStorage
+    const newId = Date.now().toString();
+    const productWithId = {
+      ...product,
+      id: newId,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const existingProducts = await getProducts();
+    const updatedProducts = [...existingProducts, productWithId];
+    localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
+
+    return newId;
   }
 }
 
