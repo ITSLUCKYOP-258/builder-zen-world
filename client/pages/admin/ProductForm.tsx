@@ -266,15 +266,19 @@ export default function ProductForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description *</Label>
+                <Label htmlFor="description">Product Description *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Describe your product..."
-                  rows={4}
+                  placeholder="Write a detailed description of your product. Include materials, fit, style, and key features that customers should know about..."
+                  rows={5}
                   required
+                  className="resize-none"
                 />
+                <p className="text-xs text-muted-foreground">
+                  {formData.description.length}/500 characters (Be descriptive but concise)
+                </p>
               </div>
             </CardContent>
           </Card>
