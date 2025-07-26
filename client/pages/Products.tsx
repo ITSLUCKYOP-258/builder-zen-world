@@ -67,6 +67,7 @@ const categories = ["All", "T-Shirts", "Hoodies", "Jackets", "Sweatshirts", "Pan
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const { addItem } = useCart()
 
   // Filter products based on selected category
   const filteredProducts = selectedCategory === "All"
