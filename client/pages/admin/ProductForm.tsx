@@ -380,23 +380,38 @@ export default function ProductForm() {
           <Card className="border-0 shadow-soft">
             <CardHeader>
               <CardTitle>Available Colors</CardTitle>
+              <p className="text-sm text-muted-foreground">Add colors that customers can choose from</p>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex space-x-2">
-                <Input
-                  placeholder="Color name"
-                  value={newColor.name}
-                  onChange={(e) => setNewColor(prev => ({ ...prev, name: e.target.value }))}
-                />
-                <Input
-                  type="color"
-                  value={newColor.value}
-                  onChange={(e) => setNewColor(prev => ({ ...prev, value: e.target.value }))}
-                  className="w-20"
-                />
-                <Button type="button" onClick={addColor}>
-                  <Plus className="h-4 w-4" />
-                </Button>
+            <CardContent className="space-y-6">
+              <div className="space-y-3">
+                <Label>Add New Color</Label>
+                <div className="flex space-x-3">
+                  <div className="flex-1">
+                    <Input
+                      placeholder="Enter color name (e.g., Navy Blue)"
+                      value={newColor.name}
+                      onChange={(e) => setNewColor(prev => ({ ...prev, name: e.target.value }))}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Label className="text-sm">Color:</Label>
+                    <Input
+                      type="color"
+                      value={newColor.value}
+                      onChange={(e) => setNewColor(prev => ({ ...prev, value: e.target.value }))}
+                      className="w-16 h-10 p-1 border rounded"
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={addColor}
+                    disabled={!newColor.name}
+                    className="px-6"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add
+                  </Button>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
