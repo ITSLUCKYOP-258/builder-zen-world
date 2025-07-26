@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useCart } from '@/hooks/useCart'
 
 // Mock cart items
 const initialCartItems = [
