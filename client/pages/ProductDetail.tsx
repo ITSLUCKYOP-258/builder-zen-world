@@ -44,6 +44,11 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1)
 
   const handleAddToCart = () => {
+    console.log('🖱️ Add to Cart button clicked!');
+    console.log('Selected size:', selectedSize);
+    console.log('Selected color:', selectedColor.name);
+    console.log('Quantity:', quantity);
+
     if (!selectedSize) {
       alert('Please select a size')
       return
