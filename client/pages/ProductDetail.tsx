@@ -48,7 +48,19 @@ export default function ProductDetail() {
       alert('Please select a size')
       return
     }
-    // Add to cart logic here
+
+    // Add items to cart based on quantity
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        size: selectedSize,
+        color: selectedColor.name
+      })
+    }
+
     alert(`Added ${quantity}x ${product.name} (Size: ${selectedSize}, Color: ${selectedColor.name}) to cart!`)
   }
 
