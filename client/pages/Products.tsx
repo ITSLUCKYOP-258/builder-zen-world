@@ -114,56 +114,73 @@ export default function Products() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-card">
-              <CardContent className="p-0">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
-                      {product.category}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="p-6 space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-poppins font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
-                      {product.name}
-                    </h3>
-                    
-                    <div className="flex items-center space-x-2">
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 fill-current text-yellow-500" />
-                        <span className="text-sm text-muted-foreground">{product.rating}</span>
-                      </div>
-                      <span className="text-muted-foreground text-sm">•</span>
-                      <span className="text-sm text-muted-foreground">
-                        {product.colors.length} colors
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+              <Filter className="h-12 w-12 text-muted-foreground" />
+            </div>
+            <h3 className="font-poppins font-semibold text-xl text-foreground mb-2">
+              No products found
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              No products available in the {selectedCategory} category.
+            </p>
+            <Button onClick={() => setSelectedCategory("All")} variant="outline">
+              View All Products
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-card">
+                <CardContent className="p-0">
+                  <div className="relative overflow-hidden rounded-t-lg">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
+                        {product.category}
                       </span>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="font-poppins font-bold text-xl text-foreground">
-                      ${product.price}
-                    </span>
-                    <Link to={`/product/${product.id}`}>
-                      <Button className="group-hover:shadow-md transition-shadow">
-                        View Details
-                      </Button>
-                    </Link>
+
+                  <div className="p-6 space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="font-poppins font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
+                        {product.name}
+                      </h3>
+
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-4 w-4 fill-current text-yellow-500" />
+                          <span className="text-sm text-muted-foreground">{product.rating}</span>
+                        </div>
+                        <span className="text-muted-foreground text-sm">•</span>
+                        <span className="text-sm text-muted-foreground">
+                          {product.colors.length} colors
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="font-poppins font-bold text-xl text-foreground">
+                        ${product.price}
+                      </span>
+                      <Link to={`/product/${product.id}`}>
+                        <Button className="group-hover:shadow-md transition-shadow">
+                          View Details
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
         {/* Load More */}
         <div className="text-center mt-12">
