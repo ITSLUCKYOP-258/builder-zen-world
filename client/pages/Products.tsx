@@ -109,7 +109,7 @@ export default function Products() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-card">
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
