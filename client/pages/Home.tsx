@@ -77,7 +77,7 @@ export default function Home() {
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: `url('https://images.pexels.com/photos/1007014/pexels-photo-1007014.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
+          backgroundImage: `url('https://images.pexels.com/photos/8499277/pexels-photo-8499277.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
