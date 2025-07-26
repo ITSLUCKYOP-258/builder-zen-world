@@ -37,6 +37,7 @@ const product = {
 
 export default function ProductDetail() {
   const { id } = useParams()
+  const { addItem } = useCart()
   const [selectedSize, setSelectedSize] = useState('')
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedImage, setSelectedImage] = useState(0)
