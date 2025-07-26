@@ -1,0 +1,145 @@
+import { 
+  collection, 
+  addDoc, 
+  getDocs, 
+  doc, 
+  updateDoc, 
+  deleteDoc, 
+  getDoc,
+  query,
+  orderBy 
+} from 'firebase/firestore';
+import { 
+  ref, 
+  uploadBytes, 
+  getDownloadURL, 
+  deleteObject 
+} from 'firebase/storage';
+import { db, storage } from '@/lib/firebase';
+
+export interface Product {
+  id?: string;
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  sizes: string[];
+  colors: { name: string; value: string }[];
+  images: string[];
+  features: string[];
+  rating?: number;
+  reviews?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const PRODUCTS_COLLECTION = 'products';
+
+// Get all products
+export async function getProducts(): Promise<Product[]> {
+  try {
+    const productsRef = collection(db, PRODUCTS_COLLECTION);
+    const q = query(productsRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Product[];
+  } catch (error) {
+    console.error('Error getting products:', error);
+    throw error;
+  }
+}
+
+// Get single product
+export async function getProduct(id: string): Promise<Product | null> {
+  try {
+    const docRef = doc(db, PRODUCTS_COLLECTION, id);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      return {
+        id: docSnap.id,
+        ...docSnap.data()
+      } as Product;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error getting product:', error);
+    throw error;
+  }
+}
+
+// Add new product
+export async function addProduct(product: Omit<Product, 'id'>): Promise<string> {
+  try {
+    const productData = {
+      ...product,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), productData);
+    return docRef.id;
+  } catch (error) {
+    console.error('Error adding product:', error);
+    throw error;
+  }
+}
+
+// Update product
+export async function updateProduct(id: string, product: Partial<Product>): Promise<void> {
+  try {
+    const docRef = doc(db, PRODUCTS_COLLECTION, id);
+    const updateData = {
+      ...product,
+      updatedAt: new Date()
+    };
+    
+    await updateDoc(docRef, updateData);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw error;
+  }
+}
+
+// Delete product
+export async function deleteProduct(id: string): Promise<void> {
+  try {
+    const docRef = doc(db, PRODUCTS_COLLECTION, id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    throw error;
+  }
+}
+
+// Upload product image
+export async function uploadProductImage(file: File, productId: string): Promise<string> {
+  try {
+    const timestamp = Date.now();
+    const filename = `products/${productId}/${timestamp}_${file.name}`;
+    const storageRef = ref(storage, filename);
+    
+    const snapshot = await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    
+    return downloadURL;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}
+
+// Delete product image
+export async function deleteProductImage(imageUrl: string): Promise<void> {
+  try {
+    const imageRef = ref(storage, imageUrl);
+    await deleteObject(imageRef);
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    throw error;
+  }
+}
