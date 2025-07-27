@@ -220,7 +220,7 @@ export default function AdminDashboard() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Average Price</p>
-                  <p className="font-poppins font-bold text-2xl text-foreground">${avgPrice.toFixed(2)}</p>
+                  <p className="font-poppins font-bold text-2xl text-foreground">{formatINR(avgPrice)}</p>
                 </div>
               </div>
             </CardContent>
@@ -234,7 +234,7 @@ export default function AdminDashboard() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Total Value</p>
-                  <p className="font-poppins font-bold text-2xl text-foreground">${totalValue.toFixed(2)}</p>
+                  <p className="font-poppins font-bold text-2xl text-foreground">{formatINR(totalValue)}</p>
                 </div>
               </div>
             </CardContent>
@@ -286,7 +286,7 @@ export default function AdminDashboard() {
                         <h3 className="font-poppins font-semibold text-foreground">{product.name}</h3>
                         <p className="text-sm text-muted-foreground">{product.category}</p>
                         <div className="flex items-center space-x-2 mt-1">
-                          <span className="font-semibold text-foreground">${product.price}</span>
+                          <span className="font-semibold text-foreground">{formatINR(product.price)}</span>
                           <Badge variant="secondary">{product.sizes.length} sizes</Badge>
                           <Badge variant="outline">{product.colors.length} colors</Badge>
                         </div>
