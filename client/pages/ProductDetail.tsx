@@ -2,39 +2,28 @@ import { useParams, Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Star, ShoppingCart, Heart, ArrowLeft, Check, MessageCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '@/hooks/useCart'
-import { formatINR, getDiscountPercentage } from '@/services/products'
+import { formatINR, getDiscountPercentage, getProduct, type Product } from '@/services/products'
 
-// Mock product data
-const product = {
-  id: 1,
-  name: "Premium Cotton T-Shirt",
+// Fallback product data
+const fallbackProduct: Product = {
+  id: "fallback",
+  name: "Product Not Found",
   originalPrice: 2999,
-  price: 1999, // 33% off
+  price: 1999,
   images: [
-    "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/4887245/pexels-photo-4887245.jpeg?auto=compress&cs=tinysrgb&w=800"
+    "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800"
   ],
-  rating: 4.8,
-  reviews: 124,
+  rating: 4.5,
+  reviews: 0,
   category: "T-Shirts",
-  description: "Made from 100% organic cotton, this premium t-shirt offers unmatched comfort and durability. The classic fit makes it perfect for everyday wear, while the high-quality fabric ensures it will maintain its shape and softness wash after wash.",
-  features: [
-    "100% Organic Cotton",
-    "Machine Washable",
-    "Pre-shrunk",
-    "Tagless Comfort",
-    "Sustainable Production"
-  ],
-  sizes: ["S", "M", "L", "XL", "XXL"],
+  description: "Product details are not available.",
+  features: ["Product not found"],
   colors: [
-    { name: "White", value: "#FFFFFF" },
-    { name: "Black", value: "#000000" },
-    { name: "Navy", value: "#1E3A8A" },
-    { name: "Gray", value: "#6B7280" }
-  ]
+    { name: "Default", value: "#FFFFFF" }
+  ],
+  sizes: ["M"]
 }
 
 export default function ProductDetail() {
