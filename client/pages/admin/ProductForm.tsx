@@ -457,11 +457,30 @@ export default function ProductForm() {
                               console.log('Image loaded successfully:', image);
                             }}
                           />
-                          {index === 0 && (
-                            <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
-                              Main
-                            </div>
-                          )}
+                          <div className="absolute top-1 left-1 flex gap-1">
+                            {index === 0 && (
+                              <div className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
+                                Main
+                              </div>
+                            )}
+                          </div>
+                          <div className="absolute top-1 right-1">
+                            {image.startsWith('data:') && (
+                              <div className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded" title="Saved locally">
+                                💾
+                              </div>
+                            )}
+                            {image.startsWith('https://') && !image.includes('pexels') && (
+                              <div className="bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded" title="Uploaded to cloud">
+                                ☁️
+                              </div>
+                            )}
+                            {image.includes('pexels') && (
+                              <div className="bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded" title="Demo image">
+                                🎭
+                              </div>
+                            )}
+                          </div>
                         </div>
                         <Button
                           type="button"
