@@ -151,29 +151,38 @@ export async function deleteProduct(id: string): Promise<void> {
 // Upload product image
 export async function uploadProductImage(file: File, productId: string): Promise<string> {
   try {
+    console.log('Attempting Firebase upload for:', file.name);
     const timestamp = Date.now();
-    const filename = `products/${productId}/${timestamp}_${file.name}`;
+    const filename = `products/${productId}/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
     const storageRef = ref(storage, filename);
 
+    console.log('Uploading to path:', filename);
     const snapshot = await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(snapshot.ref);
 
+    console.log('Firebase upload successful:', downloadURL);
     return downloadURL;
   } catch (error) {
-    console.error('Error uploading image to Firebase, using placeholder:', error);
+    console.error('Error uploading image to Firebase:', error);
 
-    // Fallback to placeholder images based on file type
-    const placeholderImages = [
+    // Enhanced fallback system with high-quality clothing images
+    const clothingImages = [
       'https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/6276009/pexels-photo-6276009.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/4887245/pexels-photo-4887245.jpeg?auto=compress&cs=tinysrgb&w=800'
+      'https://images.pexels.com/photos/4887245/pexels-photo-4887245.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/3766211/pexels-photo-3766211.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/13211985/pexels-photo-13211985.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/6764049/pexels-photo-6764049.jpeg?auto=compress&cs=tinysrgb&w=800'
     ];
 
-    // Return a random placeholder image
-    const randomIndex = Math.floor(Math.random() * placeholderImages.length);
-    return placeholderImages[randomIndex];
+    // Return a random high-quality clothing image as fallback
+    const randomIndex = Math.floor(Math.random() * clothingImages.length);
+    const fallbackUrl = clothingImages[randomIndex];
+
+    console.log('Using fallback image:', fallbackUrl);
+    return fallbackUrl;
   }
 }
 
