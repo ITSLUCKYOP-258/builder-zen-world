@@ -198,9 +198,23 @@ export default function Home() {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="font-poppins font-semibold text-lg text-foreground">
-                          ${product.price}
-                        </span>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-poppins font-semibold text-lg text-foreground">
+                              {formatINR(product.price)}
+                            </span>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <span className="text-sm text-muted-foreground line-through">
+                                {formatINR(product.originalPrice)}
+                              </span>
+                            )}
+                          </div>
+                          {product.originalPrice && product.originalPrice > product.price && (
+                            <div className="text-xs text-green-600 font-medium">
+                              {getDiscountPercentage(product.originalPrice, product.price)}% OFF
+                            </div>
+                          )}
+                        </div>
                         <div className="flex gap-2">
                           <Button
                             size="sm"
