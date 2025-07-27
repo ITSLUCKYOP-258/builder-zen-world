@@ -90,7 +90,7 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     console.log('🖱️ Add to Cart button clicked!');
     console.log('Selected size:', selectedSize);
-    console.log('Selected color:', selectedColor.name);
+    console.log('Selected color:', selectedColor?.name);
     console.log('Quantity:', quantity);
 
     if (!selectedSize) {
@@ -98,15 +98,21 @@ export default function ProductDetail() {
       return
     }
 
+    if (!selectedColor) {
+      alert('Please select a color')
+      return
+    }
+
     // Add items to cart based on quantity
     for (let i = 0; i < quantity; i++) {
       addItem({
-        id: product.id,
+        id: product.id!,
         name: product.name,
         price: product.price,
         image: product.images[0],
         size: selectedSize,
-        color: selectedColor.name
+        color: selectedColor.name,
+        quantity: 1
       })
     }
 
