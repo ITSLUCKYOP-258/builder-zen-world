@@ -20,7 +20,8 @@ import { db, storage } from '@/lib/firebase';
 export interface Product {
   id?: string;
   name: string;
-  price: number;
+  price: number; // Current/discounted price in INR
+  originalPrice: number; // Original price in INR
   description: string;
   category: string;
   sizes: string[];
@@ -31,6 +32,16 @@ export interface Product {
   reviews?: number;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+// Utility function to format INR currency
+export function formatINR(amount: number): string {
+  return `₹${amount.toLocaleString('en-IN')}`;
+}
+
+// Utility function to calculate discount percentage
+export function getDiscountPercentage(originalPrice: number, discountedPrice: number): number {
+  return Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
 }
 
 const PRODUCTS_COLLECTION = 'products';
