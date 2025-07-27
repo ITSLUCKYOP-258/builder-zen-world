@@ -71,6 +71,20 @@ export default function ProductDetail() {
     alert(`Added ${quantity}x ${product.name} (Size: ${selectedSize}, Color: ${selectedColor.name}) to cart!`)
   }
 
+  const handleWhatsAppShare = () => {
+    const productUrl = `${window.location.origin}/product/${product.id}`
+    const discountText = product.originalPrice > product.price
+      ? `\n💰 Special Offer: ${getDiscountPercentage(product.originalPrice, product.price)}% OFF! (Save ${formatINR(product.originalPrice - product.price)})`
+      : ''
+
+    const message = `Hello! 👋\n\nI want to place my order for this amazing product:\n\n🛍️ ${product.name}\n💰 Price: ${formatINR(product.price)}${discountText}\n🔗 Product Link: ${productUrl}\n\nPlease let me know how to place the order. Thank you! 😊`
+
+    const phoneNumber = "919009402002"
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+
+    window.open(whatsappUrl, '_blank')
+  }
+
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
