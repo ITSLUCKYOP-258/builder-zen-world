@@ -4,7 +4,8 @@ export const sampleProducts = [
   // T-Shirts (5 products)
   {
     name: "Classic White Crew Neck",
-    price: 24.99,
+    originalPrice: 2499,
+    price: 1999, // 20% off
     description: "Essential white t-shirt made from premium cotton. Perfect for layering or wearing on its own. Features a comfortable crew neck and relaxed fit.",
     category: "T-Shirts",
     sizes: ["XS", "S", "M", "L", "XL"],
