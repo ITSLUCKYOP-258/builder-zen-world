@@ -171,79 +171,82 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((product, index) => (
-                <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-background">
-                  <CardContent className="p-0">
-                    <div className="relative overflow-hidden rounded-t-lg">
-                      <img
-                        src={product.images[0] || '/placeholder.svg'}
-                        alt={product.name}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
-                          {product.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                          {product.name}
-                        </h3>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-3 w-3 fill-current text-yellow-500" />
-                          <span className="text-xs text-muted-foreground">{product.rating || 4.5}</span>
+                <Link
+                  key={product.id}
+                  to={`/product/${product.id}`}
+                  className="block group"
+                >
+                  <Card className="group-hover:shadow-soft-lg transition-all duration-300 border-0 bg-background cursor-pointer">
+                    <CardContent className="p-0">
+                      <div className="relative overflow-hidden rounded-t-lg">
+                        <img
+                          src={product.images[0] || '/placeholder.svg'}
+                          alt={product.name}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
+                            {product.category}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-poppins font-semibold text-lg text-foreground">
-                              {formatINR(product.price)}
-                            </span>
-                            {product.originalPrice && product.originalPrice > product.price && (
-                              <span className="text-sm text-muted-foreground line-through">
-                                {formatINR(product.originalPrice)}
+                      <div className="p-4 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                            {product.name}
+                          </h3>
+                          <div className="flex items-center space-x-1">
+                            <Star className="h-3 w-3 fill-current text-yellow-500" />
+                            <span className="text-xs text-muted-foreground">{product.rating || 4.5}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-poppins font-semibold text-lg text-foreground">
+                                {formatINR(product.price)}
                               </span>
+                              {product.originalPrice && product.originalPrice > product.price && (
+                                <span className="text-sm text-muted-foreground line-through">
+                                  {formatINR(product.originalPrice)}
+                                </span>
+                              )}
+                            </div>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <div className="text-xs text-green-600 font-medium">
+                                {getDiscountPercentage(product.originalPrice, product.price)}% OFF
+                              </div>
                             )}
                           </div>
-                          {product.originalPrice && product.originalPrice > product.price && (
-                            <div className="text-xs text-green-600 font-medium">
-                              {getDiscountPercentage(product.originalPrice, product.price)}% OFF
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              addItem({
-                                id: product.id!,
-                                name: product.name,
-                                price: product.price,
-                                image: product.images[0] || '/placeholder.svg',
-                                size: product.sizes[0] || 'M',
-                                color: product.colors[0]?.name || 'Default',
-                                quantity: 1
-                              })
-                            }}
-                            className="group-hover:shadow-md transition-shadow"
-                          >
-                            <ShoppingCart className="h-4 w-4" />
-                          </Button>
-                          <Link to={`/product/${product.id}`}>
-                            <Button size="sm" variant="outline" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                              View Details
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                addItem({
+                                  id: product.id!,
+                                  name: product.name,
+                                  price: product.price,
+                                  image: product.images[0] || '/placeholder.svg',
+                                  size: product.sizes[0] || 'M',
+                                  color: product.colors[0]?.name || 'Default',
+                                  quantity: 1
+                                })
+                              }}
+                              className="group-hover:shadow-md transition-shadow"
+                            >
+                              <ShoppingCart className="h-4 w-4" />
                             </Button>
-                          </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           )}
