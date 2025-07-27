@@ -29,10 +29,63 @@ const fallbackProduct: Product = {
 export default function ProductDetail() {
   const { id } = useParams()
   const { addItem } = useCart()
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
   const [selectedSize, setSelectedSize] = useState('')
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
+  const [selectedColor, setSelectedColor] = useState<{ name: string; value: string } | null>(null)
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!id) {
+        setProduct(fallbackProduct)
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+        const productData = await getProduct(id)
+        if (productData) {
+          setProduct(productData)
+          setSelectedColor(productData.colors[0] || { name: 'Default', value: '#FFFFFF' })
+        } else {
+          setProduct(fallbackProduct)
+        }
+      } catch (error) {
+        console.error('Error loading product:', error)
+        setProduct(fallbackProduct)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProduct()
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen py-12 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen py-12 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">Product not found</p>
+          <Link to="/products" className="mt-4 inline-block">
+            <Button variant="outline">Back to Products</Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   const handleAddToCart = () => {
     console.log('🖱️ Add to Cart button clicked!');
