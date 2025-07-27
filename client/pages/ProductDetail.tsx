@@ -337,8 +337,8 @@ export default function ProductDetail() {
               <CardContent className="p-6">
                 <h3 className="font-poppins font-semibold text-foreground mb-3">Features</h3>
                 <ul className="space-y-2">
-                  {product.features.map((feature, index) => (
-                    <li key={index} className="flex items-center space-x-2 text-muted-foreground">
+                  {(product.features || []).map((feature, index) => (
+                    <li key={`feature-${index}-${feature.slice(0, 10)}`} className="flex items-center space-x-2 text-muted-foreground">
                       <Check className="h-4 w-4 text-primary" />
                       <span>{feature}</span>
                     </li>
