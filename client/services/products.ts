@@ -1,21 +1,21 @@
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  doc, 
-  updateDoc, 
-  deleteDoc, 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
   getDoc,
   query,
-  orderBy 
-} from 'firebase/firestore';
-import { 
-  ref, 
-  uploadBytes, 
-  getDownloadURL, 
-  deleteObject 
-} from 'firebase/storage';
-import { db, storage } from '@/lib/firebase';
+  orderBy,
+} from "firebase/firestore";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { db, storage } from "@/lib/firebase";
 
 export interface Product {
   id?: string;
@@ -36,42 +36,48 @@ export interface Product {
 
 // Utility function to format INR currency
 export function formatINR(amount: number): string {
-  return `₹${amount.toLocaleString('en-IN')}`;
+  return `₹${amount.toLocaleString("en-IN")}`;
 }
 
 // Utility function to calculate discount percentage
-export function getDiscountPercentage(originalPrice: number, discountedPrice: number): number {
+export function getDiscountPercentage(
+  originalPrice: number,
+  discountedPrice: number,
+): number {
   return Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
 }
 
 // Utility function to validate and sanitize product data
 export function sanitizeProduct(product: any): Product {
   return {
-    id: product.id || 'unknown',
-    name: product.name || 'Unknown Product',
+    id: product.id || "unknown",
+    name: product.name || "Unknown Product",
     price: Number(product.price) || 0,
     originalPrice: Number(product.originalPrice) || Number(product.price) || 0,
-    description: product.description || 'No description available',
-    category: product.category || 'Uncategorized',
-    sizes: Array.isArray(product.sizes) ? product.sizes : ['M'],
+    description: product.description || "No description available",
+    category: product.category || "Uncategorized",
+    sizes: Array.isArray(product.sizes) ? product.sizes : ["M"],
     colors: Array.isArray(product.colors)
       ? product.colors.map((color: any, index: number) => ({
           name: color?.name || `Color ${index + 1}`,
-          value: color?.value || '#FFFFFF'
+          value: color?.value || "#FFFFFF",
         }))
-      : [{ name: 'Default', value: '#FFFFFF' }],
-    images: Array.isArray(product.images) && product.images.length > 0
-      ? product.images
-      : ['/placeholder.svg'],
-    features: Array.isArray(product.features) ? product.features : ['No features listed'],
+      : [{ name: "Default", value: "#FFFFFF" }],
+    images:
+      Array.isArray(product.images) && product.images.length > 0
+        ? product.images
+        : ["/placeholder.svg"],
+    features: Array.isArray(product.features)
+      ? product.features
+      : ["No features listed"],
     rating: Number(product.rating) || 4.5,
     reviews: Number(product.reviews) || 0,
     createdAt: product.createdAt || new Date(),
-    updatedAt: product.updatedAt || new Date()
+    updatedAt: product.updatedAt || new Date(),
   };
 }
 
-const PRODUCTS_COLLECTION = 'products';
+const PRODUCTS_COLLECTION = "products";
 
 // Get all products
 export async function getProducts(): Promise<Product[]> {
@@ -80,41 +86,47 @@ export async function getProducts(): Promise<Product[]> {
 
   // Try Firebase in background to sync data
   try {
-    console.log('Fetching products from Firebase...');
+    console.log("Fetching products from Firebase...");
     const productsRef = collection(db, PRODUCTS_COLLECTION);
-    const q = query(productsRef, orderBy('createdAt', 'desc'));
+    const q = query(productsRef, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
 
-    const firebaseProducts = querySnapshot.docs.map(doc => ({
+    const firebaseProducts = querySnapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     })) as Product[];
 
-    console.log('Firebase products found:', firebaseProducts.length);
+    console.log("Firebase products found:", firebaseProducts.length);
 
     // Update localStorage with latest Firebase data
     if (firebaseProducts.length > 0) {
-      localStorage.setItem('s2-wear-products', JSON.stringify(firebaseProducts));
+      localStorage.setItem(
+        "s2-wear-products",
+        JSON.stringify(firebaseProducts),
+      );
       return firebaseProducts;
     }
   } catch (error) {
-    console.warn('Firebase connection failed (using localStorage):', error.message);
+    console.warn(
+      "Firebase connection failed (using localStorage):",
+      error.message,
+    );
     // This is common with Chrome extensions blocking requests
   }
 
   // Return localStorage data (includes sample products if empty)
-  console.log('Using localStorage products:', localProducts.length);
+  console.log("Using localStorage products:", localProducts.length);
   return localProducts;
 }
 
 // Helper function to get local products
 function getLocalProducts(): Product[] {
-  const localProducts = localStorage.getItem('s2-wear-products');
+  const localProducts = localStorage.getItem("s2-wear-products");
   if (localProducts) {
     try {
       return JSON.parse(localProducts);
     } catch {
-      console.warn('Invalid localStorage data, returning empty array');
+      console.warn("Invalid localStorage data, returning empty array");
       return [];
     }
   }
@@ -122,36 +134,47 @@ function getLocalProducts(): Product[] {
   // Return sample products if nothing exists
   const sampleProducts: Product[] = [
     {
-      id: 'sample-1',
+      id: "sample-1",
       name: "Premium Cotton T-Shirt",
       price: 29.99,
-      description: "Made from 100% organic cotton with a classic fit. Perfect for everyday wear.",
+      description:
+        "Made from 100% organic cotton with a classic fit. Perfect for everyday wear.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL"],
-      colors: [{ name: "White", value: "#FFFFFF" }, { name: "Black", value: "#000000" }],
-      images: ["https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800"],
+      colors: [
+        { name: "White", value: "#FFFFFF" },
+        { name: "Black", value: "#000000" },
+      ],
+      images: [
+        "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
+      ],
       features: ["100% Organic Cotton", "Machine Washable"],
       rating: 4.8,
       reviews: 124,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     {
-      id: 'sample-2',
+      id: "sample-2",
       name: "Cozy Pullover Hoodie",
       price: 59.99,
       description: "Comfortable hoodie perfect for casual wear and layering.",
       category: "Hoodies",
       sizes: ["M", "L", "XL"],
-      colors: [{ name: "Gray", value: "#6B7280" }, { name: "Black", value: "#000000" }],
-      images: ["https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800"],
+      colors: [
+        { name: "Gray", value: "#6B7280" },
+        { name: "Black", value: "#000000" },
+      ],
+      images: [
+        "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
+      ],
       features: ["Cotton Blend", "Kangaroo Pocket"],
       rating: 4.9,
       reviews: 87,
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    },
   ];
 
-  localStorage.setItem('s2-wear-products', JSON.stringify(sampleProducts));
+  localStorage.setItem("s2-wear-products", JSON.stringify(sampleProducts));
   return sampleProducts;
 }
 
@@ -159,118 +182,139 @@ function getLocalProducts(): Product[] {
 export async function getProduct(id: string): Promise<Product | null> {
   // First try localStorage (faster and more reliable)
   try {
-    console.log('Checking localStorage for product ID:', id);
-    const localProducts = localStorage.getItem('s2-wear-products');
+    console.log("Checking localStorage for product ID:", id);
+    const localProducts = localStorage.getItem("s2-wear-products");
     if (localProducts) {
       const products = JSON.parse(localProducts);
       const foundProduct = products.find((p: Product) => p.id === id);
       if (foundProduct) {
-        console.log('Product found in localStorage:', foundProduct.name);
+        console.log("Product found in localStorage:", foundProduct.name);
         return sanitizeProduct(foundProduct);
       }
     }
   } catch (error) {
-    console.warn('Error reading from localStorage:', error);
+    console.warn("Error reading from localStorage:", error);
   }
 
   // Try Firebase as secondary option
   try {
-    console.log('Fetching from Firebase for product ID:', id);
+    console.log("Fetching from Firebase for product ID:", id);
     const docRef = doc(db, PRODUCTS_COLLECTION, id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const rawProduct = {
         id: docSnap.id,
-        ...docSnap.data()
+        ...docSnap.data(),
       };
       const product = sanitizeProduct(rawProduct);
-      console.log('Product found in Firebase:', product.name);
+      console.log("Product found in Firebase:", product.name);
       return product;
     }
   } catch (error) {
-    console.warn('Firebase fetch failed (network/extension issue):', error.message);
+    console.warn(
+      "Firebase fetch failed (network/extension issue):",
+      error.message,
+    );
     // This is common with Chrome extensions or network issues
   }
 
   // Final fallback - load all products and find the one we need
   try {
-    console.log('Trying fallback method...');
+    console.log("Trying fallback method...");
     const allProducts = await getProducts();
-    const foundProduct = allProducts.find(p => p.id === id);
+    const foundProduct = allProducts.find((p) => p.id === id);
     if (foundProduct) {
-      console.log('Product found via fallback:', foundProduct.name);
+      console.log("Product found via fallback:", foundProduct.name);
       return sanitizeProduct(foundProduct);
     }
   } catch (error) {
-    console.error('All product loading methods failed:', error);
+    console.error("All product loading methods failed:", error);
   }
 
-  console.log('Product not found with ID:', id);
+  console.log("Product not found with ID:", id);
   return null;
 }
 
 // Add new product
-export async function addProduct(product: Omit<Product, 'id'>): Promise<string> {
+export async function addProduct(
+  product: Omit<Product, "id">,
+): Promise<string> {
   const productData = {
     ...product,
     rating: 4.5, // Default rating
     reviews: 0, // Default reviews
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   let productId: string;
 
   try {
-    console.log('Adding product to Firebase:', product.name);
-    const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), productData);
+    console.log("Adding product to Firebase:", product.name);
+    const docRef = await addDoc(
+      collection(db, PRODUCTS_COLLECTION),
+      productData,
+    );
     productId = docRef.id;
-    console.log('Product added to Firebase with ID:', productId);
+    console.log("Product added to Firebase with ID:", productId);
   } catch (error) {
-    console.error('Error adding product to Firebase, using localStorage fallback:', error);
+    console.error(
+      "Error adding product to Firebase, using localStorage fallback:",
+      error,
+    );
     productId = Date.now().toString();
   }
 
   // Always update localStorage for immediate UI updates
   const productWithId = {
     ...productData,
-    id: productId
+    id: productId,
   };
 
   const existingProducts = await getProducts();
-  const updatedProducts = [productWithId, ...existingProducts.filter(p => p.id !== productId)];
-  localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
-  console.log('Product saved to localStorage, total products:', updatedProducts.length);
+  const updatedProducts = [
+    productWithId,
+    ...existingProducts.filter((p) => p.id !== productId),
+  ];
+  localStorage.setItem("s2-wear-products", JSON.stringify(updatedProducts));
+  console.log(
+    "Product saved to localStorage, total products:",
+    updatedProducts.length,
+  );
 
   return productId;
 }
 
 // Update product
-export async function updateProduct(id: string, product: Partial<Product>): Promise<void> {
+export async function updateProduct(
+  id: string,
+  product: Partial<Product>,
+): Promise<void> {
   const updateData = {
     ...product,
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   try {
-    console.log('Updating product in Firebase:', id);
+    console.log("Updating product in Firebase:", id);
     const docRef = doc(db, PRODUCTS_COLLECTION, id);
     await updateDoc(docRef, updateData);
-    console.log('Product updated in Firebase successfully');
+    console.log("Product updated in Firebase successfully");
   } catch (error) {
-    console.error('Error updating product in Firebase, using localStorage fallback:', error);
+    console.error(
+      "Error updating product in Firebase, using localStorage fallback:",
+      error,
+    );
   }
 
   // Always update localStorage for immediate UI updates
   const existingProducts = await getProducts();
-  const updatedProducts = existingProducts.map(p =>
-    p.id === id
-      ? { ...p, ...updateData }
-      : p
+  const updatedProducts = existingProducts.map((p) =>
+    p.id === id ? { ...p, ...updateData } : p,
   );
-  localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
-  console.log('Product updated in localStorage');
+  localStorage.setItem("s2-wear-products", JSON.stringify(updatedProducts));
+  console.log("Product updated in localStorage");
 }
 
 // Delete product
@@ -279,45 +323,53 @@ export async function deleteProduct(id: string): Promise<void> {
     const docRef = doc(db, PRODUCTS_COLLECTION, id);
     await deleteDoc(docRef);
   } catch (error) {
-    console.error('Error deleting product:', error);
+    console.error("Error deleting product:", error);
     throw error;
   }
 }
 
 // Upload product image
-export async function uploadProductImage(file: File, productId: string): Promise<string> {
-  console.log('Attempting Firebase upload for:', file.name, 'Size:', file.size);
+export async function uploadProductImage(
+  file: File,
+  productId: string,
+): Promise<string> {
+  console.log("Attempting Firebase upload for:", file.name, "Size:", file.size);
 
   try {
     // Test Firebase connection first
     if (!storage) {
-      throw new Error('Firebase storage not initialized');
+      throw new Error("Firebase storage not initialized");
     }
 
     const timestamp = Date.now();
-    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const filename = `products/${productId}/${timestamp}_${cleanFileName}`;
     const storageRef = ref(storage, filename);
 
-    console.log('Uploading to Firebase path:', filename);
+    console.log("Uploading to Firebase path:", filename);
 
     // Upload file with timeout
     const uploadPromise = uploadBytes(storageRef, file);
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Upload timeout')), 30000)
+      setTimeout(() => reject(new Error("Upload timeout")), 30000),
     );
 
-    const snapshot = await Promise.race([uploadPromise, timeoutPromise]) as any;
+    const snapshot = (await Promise.race([
+      uploadPromise,
+      timeoutPromise,
+    ])) as any;
     const downloadURL = await getDownloadURL(snapshot.ref);
 
-    console.log('Firebase upload successful:', downloadURL);
+    console.log("Firebase upload successful:", downloadURL);
     return downloadURL;
   } catch (error) {
-    console.error('Firebase upload failed:', error);
+    console.error("Firebase upload failed:", error);
 
     // Re-throw the error so the caller can handle it
     // (ProductForm will convert to base64 as fallback)
-    throw new Error(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Upload failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
   }
 }
 
@@ -327,7 +379,7 @@ export async function deleteProductImage(imageUrl: string): Promise<void> {
     const imageRef = ref(storage, imageUrl);
     await deleteObject(imageRef);
   } catch (error) {
-    console.error('Error deleting image:', error);
+    console.error("Error deleting image:", error);
     throw error;
   }
 }
