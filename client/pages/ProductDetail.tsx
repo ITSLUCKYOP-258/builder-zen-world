@@ -257,17 +257,30 @@ export default function ProductDetail() {
             </div>
 
             {/* Add to Cart */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                className="flex-1 shadow-soft-lg"
-                onClick={handleAddToCart}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  size="lg"
+                  className="flex-1 shadow-soft-lg"
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCart className="mr-2 h-5 w-5" />
+                  Add to Cart
+                </Button>
+                <Button variant="outline" size="lg" className="sm:w-auto">
+                  <Heart className="h-5 w-5" />
+                </Button>
+              </div>
+
+              {/* WhatsApp Order Button */}
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
+                onClick={handleWhatsAppShare}
               >
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
-              </Button>
-              <Button variant="outline" size="lg" className="sm:w-auto">
-                <Heart className="h-5 w-5" />
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Order via WhatsApp
               </Button>
             </div>
 
