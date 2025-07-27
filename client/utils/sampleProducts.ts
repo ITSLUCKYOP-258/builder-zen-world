@@ -19,7 +19,8 @@ export const sampleProducts = [
   },
   {
     name: "Vintage Logo Graphic Tee",
-    price: 32.99,
+    originalPrice: 3999,
+    price: 2999, // 25% off
     description: "Retro-inspired graphic t-shirt with vintage S2 Wear logo. Soft-washed for that lived-in feel. Perfect for casual outings.",
     category: "T-Shirts",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -33,7 +34,8 @@ export const sampleProducts = [
   },
   {
     name: "Premium V-Neck Tee",
-    price: 28.99,
+    originalPrice: 3499,
+    price: 2699, // 23% off
     description: "Sophisticated v-neck t-shirt crafted from organic cotton. Flattering cut suitable for both casual and smart-casual occasions.",
     category: "T-Shirts",
     sizes: ["XS", "S", "M", "L", "XL"],
@@ -47,7 +49,8 @@ export const sampleProducts = [
   },
   {
     name: "Striped Long Sleeve",
-    price: 36.99,
+    originalPrice: 4499,
+    price: 3299, // 27% off
     description: "Classic striped long sleeve shirt with modern proportions. Perfect for transitional weather and effortless styling.",
     category: "T-Shirts",
     sizes: ["S", "M", "L", "XL"],
@@ -60,7 +63,8 @@ export const sampleProducts = [
   },
   {
     name: "Oversized Pocket Tee",
-    price: 29.99,
+    originalPrice: 3799,
+    price: 2899, // 24% off
     description: "Relaxed oversized t-shirt with front chest pocket. Contemporary street style with maximum comfort and versatility.",
     category: "T-Shirts",
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -76,7 +80,8 @@ export const sampleProducts = [
   // Hoodies (4 products)
   {
     name: "Essential Pullover Hoodie",
-    price: 64.99,
+    originalPrice: 7999,
+    price: 5999, // 25% off
     description: "Cozy pullover hoodie with kangaroo pocket and adjustable drawstring hood. Perfect for layering and casual wear.",
     category: "Hoodies",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -90,7 +95,8 @@ export const sampleProducts = [
   },
   {
     name: "Zip-Up Hoodie Jacket",
-    price: 72.99,
+    originalPrice: 8999,
+    price: 6799, // 24% off
     description: "Versatile zip-up hoodie with full-zip closure and side pockets. Great for layering or wearing as outerwear.",
     category: "Hoodies",
     sizes: ["M", "L", "XL", "XXL"],
@@ -104,7 +110,8 @@ export const sampleProducts = [
   },
   {
     name: "Cropped Hoodie",
-    price: 58.99,
+    originalPrice: 7499,
+    price: 5499, // 27% off
     description: "Trendy cropped hoodie with a modern silhouette. Perfect for pairing with high-waisted bottoms for a contemporary look.",
     category: "Hoodies",
     sizes: ["XS", "S", "M", "L", "XL"],
@@ -118,7 +125,8 @@ export const sampleProducts = [
   },
   {
     name: "Heavyweight Hoodie",
-    price: 79.99,
+    originalPrice: 9999,
+    price: 7499, // 25% off
     description: "Premium heavyweight hoodie designed for durability and warmth. Features reinforced construction and premium materials.",
     category: "Hoodies",
     sizes: ["S", "M", "L", "XL", "XXL"],
