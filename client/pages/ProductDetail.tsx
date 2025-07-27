@@ -49,9 +49,13 @@ export default function ProductDetail() {
         const productData = await getProduct(id)
         if (productData) {
           setProduct(productData)
-          setSelectedColor(productData.colors[0] || { name: 'Default', value: '#FFFFFF' })
+          const firstColor = (productData.colors && productData.colors.length > 0)
+            ? productData.colors[0]
+            : { name: 'Default', value: '#FFFFFF' }
+          setSelectedColor(firstColor)
         } else {
           setProduct(fallbackProduct)
+          setSelectedColor(fallbackProduct.colors[0])
         }
       } catch (error) {
         console.error('Error loading product:', error)
