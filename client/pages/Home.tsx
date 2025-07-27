@@ -26,15 +26,36 @@ const features = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
   const { addItem } = useCart()
+
+  // Load featured products
+  useEffect(() => {
+    loadFeaturedProducts()
+  }, [])
+
+  const loadFeaturedProducts = async () => {
+    try {
+      const products = await getProducts()
+      // Show up to 4 products as featured
+      setFeaturedProducts(products.slice(0, 4))
+    } catch (error) {
+      console.error('Error loading featured products:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Auto-rotate carousel
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % featuredProducts.length)
-    }, 4000)
-    return () => clearInterval(timer)
-  }, [])
+    if (featuredProducts.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % featuredProducts.length)
+      }, 4000)
+      return () => clearInterval(timer)
+    }
+  }, [featuredProducts.length])
 
   return (
     <div className="min-h-screen">
