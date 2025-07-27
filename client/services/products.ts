@@ -48,6 +48,10 @@ const PRODUCTS_COLLECTION = 'products';
 
 // Get all products
 export async function getProducts(): Promise<Product[]> {
+  // First try localStorage (faster and more reliable)
+  const localProducts = getLocalProducts();
+
+  // Try Firebase in background to sync data
   try {
     console.log('Fetching products from Firebase...');
     const productsRef = collection(db, PRODUCTS_COLLECTION);
@@ -61,20 +65,19 @@ export async function getProducts(): Promise<Product[]> {
 
     console.log('Firebase products found:', firebaseProducts.length);
 
-    // Also sync with localStorage for reliability
+    // Update localStorage with latest Firebase data
     if (firebaseProducts.length > 0) {
       localStorage.setItem('s2-wear-products', JSON.stringify(firebaseProducts));
       return firebaseProducts;
     }
-
-    // If no Firebase products, check localStorage
-    const localProducts = getLocalProducts();
-    console.log('Local products found:', localProducts.length);
-    return localProducts;
   } catch (error) {
-    console.error('Error getting products from Firebase, using localStorage fallback:', error);
-    return getLocalProducts();
+    console.warn('Firebase connection failed (using localStorage):', error.message);
+    // This is common with Chrome extensions blocking requests
   }
+
+  // Return localStorage data (includes sample products if empty)
+  console.log('Using localStorage products:', localProducts.length);
+  return localProducts;
 }
 
 // Helper function to get local products
