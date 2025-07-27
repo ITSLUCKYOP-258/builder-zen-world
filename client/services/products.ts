@@ -166,7 +166,7 @@ export async function getProduct(id: string): Promise<Product | null> {
       const foundProduct = products.find((p: Product) => p.id === id);
       if (foundProduct) {
         console.log('Product found in localStorage:', foundProduct.name);
-        return foundProduct;
+        return sanitizeProduct(foundProduct);
       }
     }
   } catch (error) {
