@@ -10,7 +10,8 @@ import { formatINR, getDiscountPercentage } from '@/services/products'
 const product = {
   id: 1,
   name: "Premium Cotton T-Shirt",
-  price: 29.99,
+  originalPrice: 2999,
+  price: 1999, // 33% off
   images: [
     "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
     "https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800",
