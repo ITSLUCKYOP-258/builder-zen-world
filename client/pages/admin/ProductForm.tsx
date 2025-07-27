@@ -48,7 +48,8 @@ export default function ProductForm() {
   // Form state
   const [formData, setFormData] = useState<Omit<Product, 'id'>>({
     name: '',
-    price: 29.99, // Default price
+    originalPrice: 2999, // Default original price in INR
+    price: 2299, // Default discounted price in INR
     description: '',
     category: CATEGORIES[0],
     sizes: ['M', 'L'], // Default common sizes
