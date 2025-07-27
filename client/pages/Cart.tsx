@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
+import { formatINR } from '@/services/products'
 
 export default function Cart() {
   const { items: cartItems, updateQuantity, removeItem, totalPrice, itemCount } = useCart()
