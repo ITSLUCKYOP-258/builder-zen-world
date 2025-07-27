@@ -265,9 +265,9 @@ export default function ProductDetail() {
             <div className="space-y-3">
               <h3 className="font-poppins font-semibold text-foreground">Size</h3>
               <div className="grid grid-cols-5 gap-2">
-                {product.sizes.map((size) => (
+                {(product.sizes || []).map((size) => (
                   <button
-                    key={size}
+                    key={`size-${size}`}
                     onClick={() => setSelectedSize(size)}
                     className={`py-3 px-4 border-2 rounded-lg font-medium transition-all ${
                       selectedSize === size
