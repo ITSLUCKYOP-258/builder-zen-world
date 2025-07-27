@@ -157,68 +157,82 @@ export default function Home() {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
-              <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-background">
-                <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
-                        {product.category}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                        {product.name}
-                      </h3>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-3 w-3 fill-current text-yellow-500" />
-                        <span className="text-xs text-muted-foreground">{product.rating}</span>
+          {loading ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Loading featured products...</p>
+            </div>
+          ) : featuredProducts.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground mb-4">No products available yet.</p>
+              <Link to="/admin/dashboard">
+                <Button variant="outline">Add Products via Admin Panel</Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product, index) => (
+                <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-background">
+                  <CardContent className="p-0">
+                    <div className="relative overflow-hidden rounded-t-lg">
+                      <img
+                        src={product.images[0] || '/placeholder.svg'}
+                        alt={product.name}
+                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
+                          {product.category}
+                        </span>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="font-poppins font-semibold text-lg text-foreground">
-                        ${product.price}
-                      </span>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            addItem({
-                              id: product.id,
-                              name: product.name,
-                              price: product.price,
-                              image: product.image,
-                              size: 'M', // Default size for quick add
-                              color: 'White' // Default color
-                            })
-                          }}
-                          className="group-hover:shadow-md transition-shadow"
-                        >
-                          <ShoppingCart className="h-4 w-4" />
-                        </Button>
-                        <Link to={`/product/${product.id}`}>
-                          <Button size="sm" variant="outline" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            View Details
+
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-3 w-3 fill-current text-yellow-500" />
+                          <span className="text-xs text-muted-foreground">{product.rating || 4.5}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="font-poppins font-semibold text-lg text-foreground">
+                          ${product.price}
+                        </span>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              addItem({
+                                id: product.id!,
+                                name: product.name,
+                                price: product.price,
+                                image: product.images[0] || '/placeholder.svg',
+                                size: product.sizes[0] || 'M',
+                                color: product.colors[0]?.name || 'Default',
+                                quantity: 1
+                              })
+                            }}
+                            className="group-hover:shadow-md transition-shadow"
+                          >
+                            <ShoppingCart className="h-4 w-4" />
                           </Button>
-                        </Link>
+                          <Link to={`/product/${product.id}`}>
+                            <Button size="sm" variant="outline" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                              View Details
+                            </Button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Link to="/products">
