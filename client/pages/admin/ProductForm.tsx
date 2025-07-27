@@ -167,6 +167,16 @@ export default function ProductForm() {
     }
   };
 
+  // Helper function to convert file to base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
@@ -182,9 +192,9 @@ export default function ProductForm() {
         const file = files[i];
         console.log(`Processing file ${i + 1}:`, file.name, 'Size:', file.size);
 
-        // Validate file size (10MB limit)
-        if (file.size > 10 * 1024 * 1024) {
-          throw new Error(`File ${file.name} is too large. Maximum size is 10MB.`);
+        // Validate file size (5MB limit for base64)
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error(`File ${file.name} is too large. Maximum size is 5MB.`);
         }
 
         // Validate file type
@@ -192,40 +202,35 @@ export default function ProductForm() {
           throw new Error(`File ${file.name} is not a valid image file.`);
         }
 
-        // Create local preview URL immediately
-        const localPreviewUrl = URL.createObjectURL(file);
-        newImages.push(localPreviewUrl);
-
-        // Update UI immediately with preview
-        setFormData(prev => ({
-          ...prev,
-          images: [...prev.images, localPreviewUrl]
-        }));
-
         try {
-          // Try to upload to Firebase in background
+          // First try Firebase upload
           const tempId = `${Date.now()}-${i}`;
           const firebaseUrl = await uploadProductImage(file, tempId);
           console.log(`File ${file.name} uploaded to Firebase:`, firebaseUrl);
+          newImages.push(firebaseUrl);
+        } catch (firebaseError) {
+          console.warn('Firebase upload failed, converting to base64:', firebaseError);
 
-          // Replace local URL with Firebase URL
-          setFormData(prev => ({
-            ...prev,
-            images: prev.images.map(img => img === localPreviewUrl ? firebaseUrl : img)
-          }));
-        } catch (uploadError) {
-          console.warn('Firebase upload failed, keeping local preview:', uploadError);
-          // Keep local preview URL if Firebase fails
+          // Fallback: Convert to base64 for persistence
+          const base64Url = await fileToBase64(file);
+          console.log(`File ${file.name} converted to base64 (${Math.round(base64Url.length / 1024)}KB)`);
+          newImages.push(base64Url);
         }
       }
 
-      console.log('Image processing completed');
+      // Update UI with all processed images
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, ...newImages]
+      }));
+
+      console.log('Image processing completed, added', newImages.length, 'images');
 
       // Clear the file input
       e.target.value = '';
     } catch (err: any) {
       console.error('Image upload error:', err);
-      setError(err.message || 'Failed to upload images. Please check your internet connection and try again.');
+      setError(err.message || 'Failed to upload images. Please try again.');
     } finally {
       setUploadingImages(false);
     }
