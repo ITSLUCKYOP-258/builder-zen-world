@@ -27,7 +27,7 @@ export default function Cart() {
 
     const message = `Hi! I'd like to place an order:\n\n${orderDetails}\n\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease let me know how to proceed with payment and delivery. Thank you!`
     
-    const phoneNumber = "1234567890" // Replace with actual WhatsApp number
+    const phoneNumber = "9009402002" // S2 Wear WhatsApp number
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
     
     window.open(whatsappUrl, '_blank')
