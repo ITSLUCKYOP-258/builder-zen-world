@@ -128,20 +128,38 @@ function getLocalProducts(): Product[] {
 // Get single product
 export async function getProduct(id: string): Promise<Product | null> {
   try {
+    console.log('Fetching product with ID:', id);
     const docRef = doc(db, PRODUCTS_COLLECTION, id);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
-      return {
+      const product = {
         id: docSnap.id,
         ...docSnap.data()
       } as Product;
+      console.log('Product found in Firebase:', product.name);
+      return product;
     }
-    
+
+    console.log('Product not found in Firebase, checking localStorage...');
+  } catch (error) {
+    console.error('Error getting product from Firebase, checking localStorage:', error);
+  }
+
+  // Fallback to localStorage
+  try {
+    const allProducts = await getProducts();
+    const foundProduct = allProducts.find(p => p.id === id);
+    if (foundProduct) {
+      console.log('Product found in localStorage:', foundProduct.name);
+      return foundProduct;
+    }
+
+    console.log('Product not found in localStorage either');
     return null;
   } catch (error) {
-    console.error('Error getting product:', error);
-    throw error;
+    console.error('Error getting product from localStorage:', error);
+    return null;
   }
 }
 
