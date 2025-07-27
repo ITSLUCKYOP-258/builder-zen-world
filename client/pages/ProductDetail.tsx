@@ -156,7 +156,7 @@ export default function ProductDetail() {
           <div className="space-y-4">
             <div className="aspect-square bg-card rounded-2xl overflow-hidden">
               <img
-                src={product.images[selectedImage]}
+                src={product.images?.[selectedImage] || product.images?.[0] || '/placeholder.svg'}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
