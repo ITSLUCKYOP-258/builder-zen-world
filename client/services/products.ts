@@ -38,28 +38,80 @@ const PRODUCTS_COLLECTION = 'products';
 // Get all products
 export async function getProducts(): Promise<Product[]> {
   try {
+    console.log('Fetching products from Firebase...');
     const productsRef = collection(db, PRODUCTS_COLLECTION);
     const q = query(productsRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map(doc => ({
+    const firebaseProducts = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as Product[];
+
+    console.log('Firebase products found:', firebaseProducts.length);
+
+    // Also sync with localStorage for reliability
+    if (firebaseProducts.length > 0) {
+      localStorage.setItem('s2-wear-products', JSON.stringify(firebaseProducts));
+      return firebaseProducts;
+    }
+
+    // If no Firebase products, check localStorage
+    const localProducts = getLocalProducts();
+    console.log('Local products found:', localProducts.length);
+    return localProducts;
   } catch (error) {
     console.error('Error getting products from Firebase, using localStorage fallback:', error);
-
-    // Fallback to localStorage
-    const localProducts = localStorage.getItem('s2-wear-products');
-    if (localProducts) {
-      try {
-        return JSON.parse(localProducts);
-      } catch {
-        return [];
-      }
-    }
-    return [];
+    return getLocalProducts();
   }
+}
+
+// Helper function to get local products
+function getLocalProducts(): Product[] {
+  const localProducts = localStorage.getItem('s2-wear-products');
+  if (localProducts) {
+    try {
+      return JSON.parse(localProducts);
+    } catch {
+      console.warn('Invalid localStorage data, returning empty array');
+      return [];
+    }
+  }
+
+  // Return sample products if nothing exists
+  const sampleProducts: Product[] = [
+    {
+      id: 'sample-1',
+      name: "Premium Cotton T-Shirt",
+      price: 29.99,
+      description: "Made from 100% organic cotton with a classic fit. Perfect for everyday wear.",
+      category: "T-Shirts",
+      sizes: ["S", "M", "L", "XL"],
+      colors: [{ name: "White", value: "#FFFFFF" }, { name: "Black", value: "#000000" }],
+      images: ["https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800"],
+      features: ["100% Organic Cotton", "Machine Washable"],
+      rating: 4.8,
+      reviews: 124,
+      createdAt: new Date()
+    },
+    {
+      id: 'sample-2',
+      name: "Cozy Pullover Hoodie",
+      price: 59.99,
+      description: "Comfortable hoodie perfect for casual wear and layering.",
+      category: "Hoodies",
+      sizes: ["M", "L", "XL"],
+      colors: [{ name: "Gray", value: "#6B7280" }, { name: "Black", value: "#000000" }],
+      images: ["https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800"],
+      features: ["Cotton Blend", "Kangaroo Pocket"],
+      rating: 4.9,
+      reviews: 87,
+      createdAt: new Date()
+    }
+  ];
+
+  localStorage.setItem('s2-wear-products', JSON.stringify(sampleProducts));
+  return sampleProducts;
 }
 
 // Get single product
@@ -84,57 +136,65 @@ export async function getProduct(id: string): Promise<Product | null> {
 
 // Add new product
 export async function addProduct(product: Omit<Product, 'id'>): Promise<string> {
-  try {
-    const productData = {
-      ...product,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+  const productData = {
+    ...product,
+    rating: 4.5, // Default rating
+    reviews: 0, // Default reviews
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
 
+  let productId: string;
+
+  try {
+    console.log('Adding product to Firebase:', product.name);
     const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), productData);
-    return docRef.id;
+    productId = docRef.id;
+    console.log('Product added to Firebase with ID:', productId);
   } catch (error) {
     console.error('Error adding product to Firebase, using localStorage fallback:', error);
-
-    // Fallback to localStorage
-    const newId = Date.now().toString();
-    const productWithId = {
-      ...product,
-      id: newId,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const existingProducts = await getProducts();
-    const updatedProducts = [...existingProducts, productWithId];
-    localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
-
-    return newId;
+    productId = Date.now().toString();
   }
+
+  // Always update localStorage for immediate UI updates
+  const productWithId = {
+    ...productData,
+    id: productId
+  };
+
+  const existingProducts = await getProducts();
+  const updatedProducts = [productWithId, ...existingProducts.filter(p => p.id !== productId)];
+  localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
+  console.log('Product saved to localStorage, total products:', updatedProducts.length);
+
+  return productId;
 }
 
 // Update product
 export async function updateProduct(id: string, product: Partial<Product>): Promise<void> {
-  try {
-    const docRef = doc(db, PRODUCTS_COLLECTION, id);
-    const updateData = {
-      ...product,
-      updatedAt: new Date()
-    };
+  const updateData = {
+    ...product,
+    updatedAt: new Date()
+  };
 
+  try {
+    console.log('Updating product in Firebase:', id);
+    const docRef = doc(db, PRODUCTS_COLLECTION, id);
     await updateDoc(docRef, updateData);
+    console.log('Product updated in Firebase successfully');
   } catch (error) {
     console.error('Error updating product in Firebase, using localStorage fallback:', error);
-
-    // Fallback to localStorage
-    const existingProducts = await getProducts();
-    const updatedProducts = existingProducts.map(p =>
-      p.id === id
-        ? { ...p, ...product, updatedAt: new Date() }
-        : p
-    );
-    localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
   }
+
+  // Always update localStorage for immediate UI updates
+  const existingProducts = await getProducts();
+  const updatedProducts = existingProducts.map(p =>
+    p.id === id
+      ? { ...p, ...updateData }
+      : p
+  );
+  localStorage.setItem('s2-wear-products', JSON.stringify(updatedProducts));
+  console.log('Product updated in localStorage');
 }
 
 // Delete product
