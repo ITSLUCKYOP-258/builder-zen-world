@@ -1,61 +1,73 @@
-import { Link } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { ArrowRight, Star, Truck, Shield, Recycle, ShoppingCart } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { useCart } from '@/hooks/useCart'
-import { getProducts, formatINR, getDiscountPercentage, type Product } from '@/services/products'
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  ArrowRight,
+  Star,
+  Truck,
+  Shield,
+  Recycle,
+  ShoppingCart,
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import { useCart } from "@/hooks/useCart";
+import {
+  getProducts,
+  formatINR,
+  getDiscountPercentage,
+  type Product,
+} from "@/services/products";
 
 const features = [
   {
     icon: Truck,
     title: "Free Shipping",
-    description: "Free delivery on orders over $50"
+    description: "Free delivery on orders over $50",
   },
   {
     icon: Shield,
     title: "Quality Guarantee",
-    description: "30-day money back guarantee"
+    description: "30-day money back guarantee",
   },
   {
     icon: Recycle,
     title: "Sustainable",
-    description: "Eco-friendly materials and practices"
-  }
-]
+    description: "Eco-friendly materials and practices",
+  },
+];
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-  const { addItem } = useCart()
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { addItem } = useCart();
 
   // Load featured products
   useEffect(() => {
-    loadFeaturedProducts()
-  }, [])
+    loadFeaturedProducts();
+  }, []);
 
   const loadFeaturedProducts = async () => {
     try {
-      const products = await getProducts()
+      const products = await getProducts();
       // Show up to 4 products as featured
-      setFeaturedProducts(products.slice(0, 4))
+      setFeaturedProducts(products.slice(0, 4));
     } catch (error) {
-      console.error('Error loading featured products:', error)
+      console.error("Error loading featured products:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Auto-rotate carousel
   useEffect(() => {
     if (featuredProducts.length > 0) {
       const timer = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % featuredProducts.length)
-      }, 4000)
-      return () => clearInterval(timer)
+        setCurrentSlide((prev) => (prev + 1) % featuredProducts.length);
+      }, 4000);
+      return () => clearInterval(timer);
     }
-  }, [featuredProducts.length])
+  }, [featuredProducts.length]);
 
   return (
     <div className="min-h-screen">
@@ -64,9 +76,9 @@ export default function Home() {
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url('https://images.pexels.com/photos/8499277/pexels-photo-8499277.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         {/* Gradient Overlay */}
@@ -91,21 +103,28 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                Discover premium clothing that blends contemporary style with unmatched comfort.
-                Where fashion meets personality.
+                Discover premium clothing that blends contemporary style with
+                unmatched comfort. Where fashion meets personality.
               </p>
             </div>
 
             {/* Call to Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
               <Link to="/products">
-                <Button size="lg" className="w-full sm:w-auto group bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg shadow-2xl">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto group bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg shadow-2xl"
+                >
                   Explore Collection
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <Link to="/products">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg"
+                >
                   Shop Now
                 </Button>
               </Link>
@@ -114,7 +133,9 @@ export default function Home() {
             {/* Social Proof Stats */}
             <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">15K+</div>
+                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">
+                  15K+
+                </div>
                 <div className="text-sm text-white/80">Happy Customers</div>
               </div>
               <div className="text-center">
@@ -125,7 +146,9 @@ export default function Home() {
                 <div className="text-sm text-white/80">Customer Rating</div>
               </div>
               <div className="text-center">
-                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">100%</div>
+                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">
+                  100%
+                </div>
                 <div className="text-sm text-white/80">Sustainable</div>
               </div>
             </div>
@@ -152,18 +175,23 @@ export default function Home() {
               Featured Products
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Discover our most popular items, carefully selected for quality, style, and comfort.
+              Discover our most popular items, carefully selected for quality,
+              style, and comfort.
             </p>
           </div>
 
           {/* Products Grid */}
           {loading ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">Loading featured products...</p>
+              <p className="text-muted-foreground">
+                Loading featured products...
+              </p>
             </div>
           ) : featuredProducts.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground mb-4">No products available yet.</p>
+              <p className="text-muted-foreground mb-4">
+                No products available yet.
+              </p>
               <Link to="/admin/dashboard">
                 <Button variant="outline">Add Products via Admin Panel</Button>
               </Link>
@@ -180,7 +208,7 @@ export default function Home() {
                     <CardContent className="p-0">
                       <div className="relative overflow-hidden rounded-t-lg">
                         <img
-                          src={product.images[0] || '/placeholder.svg'}
+                          src={product.images[0] || "/placeholder.svg"}
                           alt={product.name}
                           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -198,7 +226,9 @@ export default function Home() {
                           </h3>
                           <div className="flex items-center space-x-1">
                             <Star className="h-3 w-3 fill-current text-yellow-500" />
-                            <span className="text-xs text-muted-foreground">{product.rating || 4.5}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {product.rating || 4.5}
+                            </span>
                           </div>
                         </div>
 
@@ -208,34 +238,41 @@ export default function Home() {
                               <span className="font-poppins font-semibold text-lg text-foreground">
                                 {formatINR(product.price)}
                               </span>
-                              {product.originalPrice && product.originalPrice > product.price && (
-                                <span className="text-sm text-muted-foreground line-through">
-                                  {formatINR(product.originalPrice)}
-                                </span>
-                              )}
+                              {product.originalPrice &&
+                                product.originalPrice > product.price && (
+                                  <span className="text-sm text-muted-foreground line-through">
+                                    {formatINR(product.originalPrice)}
+                                  </span>
+                                )}
                             </div>
-                            {product.originalPrice && product.originalPrice > product.price && (
-                              <div className="text-xs text-green-600 font-medium">
-                                {getDiscountPercentage(product.originalPrice, product.price)}% OFF
-                              </div>
-                            )}
+                            {product.originalPrice &&
+                              product.originalPrice > product.price && (
+                                <div className="text-xs text-green-600 font-medium">
+                                  {getDiscountPercentage(
+                                    product.originalPrice,
+                                    product.price,
+                                  )}
+                                  % OFF
+                                </div>
+                              )}
                           </div>
                           <div className="flex gap-2">
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
+                                e.preventDefault();
+                                e.stopPropagation();
                                 addItem({
                                   id: product.id!,
                                   name: product.name,
                                   price: product.price,
-                                  image: product.images[0] || '/placeholder.svg',
-                                  size: product.sizes[0] || 'M',
-                                  color: product.colors[0]?.name || 'Default',
-                                  quantity: 1
-                                })
+                                  image:
+                                    product.images[0] || "/placeholder.svg",
+                                  size: product.sizes[0] || "M",
+                                  color: product.colors[0]?.name || "Default",
+                                  quantity: 1,
+                                });
                               }}
                               className="group-hover:shadow-md transition-shadow"
                             >
@@ -274,9 +311,7 @@ export default function Home() {
                 <h3 className="font-poppins font-semibold text-xl text-foreground">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground">
-                  {feature.description}
-                </p>
+                <p className="text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -290,8 +325,8 @@ export default function Home() {
             Ready to Upgrade Your Wardrobe?
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who've made the switch to S2 Wear. 
-            Quality, comfort, and style - all in one place.
+            Join thousands of satisfied customers who've made the switch to S2
+            Wear. Quality, comfort, and style - all in one place.
           </p>
           <Link to="/products">
             <Button size="lg" variant="secondary" className="shadow-soft-lg">
@@ -302,5 +337,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-  )
+  );
 }
