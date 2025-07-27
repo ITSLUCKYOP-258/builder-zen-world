@@ -200,7 +200,7 @@ export async function getProduct(id: string): Promise<Product | null> {
     const foundProduct = allProducts.find(p => p.id === id);
     if (foundProduct) {
       console.log('Product found via fallback:', foundProduct.name);
-      return foundProduct;
+      return sanitizeProduct(foundProduct);
     }
   } catch (error) {
     console.error('All product loading methods failed:', error);
