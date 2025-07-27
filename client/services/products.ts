@@ -210,39 +210,38 @@ export async function deleteProduct(id: string): Promise<void> {
 
 // Upload product image
 export async function uploadProductImage(file: File, productId: string): Promise<string> {
+  console.log('Attempting Firebase upload for:', file.name, 'Size:', file.size);
+
   try {
-    console.log('Attempting Firebase upload for:', file.name);
+    // Test Firebase connection first
+    if (!storage) {
+      throw new Error('Firebase storage not initialized');
+    }
+
     const timestamp = Date.now();
-    const filename = `products/${productId}/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const filename = `products/${productId}/${timestamp}_${cleanFileName}`;
     const storageRef = ref(storage, filename);
 
-    console.log('Uploading to path:', filename);
-    const snapshot = await uploadBytes(storageRef, file);
+    console.log('Uploading to Firebase path:', filename);
+
+    // Upload file with timeout
+    const uploadPromise = uploadBytes(storageRef, file);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Upload timeout')), 30000)
+    );
+
+    const snapshot = await Promise.race([uploadPromise, timeoutPromise]) as any;
     const downloadURL = await getDownloadURL(snapshot.ref);
 
     console.log('Firebase upload successful:', downloadURL);
     return downloadURL;
   } catch (error) {
-    console.error('Error uploading image to Firebase:', error);
+    console.error('Firebase upload failed:', error);
 
-    // Enhanced fallback system with high-quality clothing images
-    const clothingImages = [
-      'https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/6276009/pexels-photo-6276009.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/4887245/pexels-photo-4887245.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/3766211/pexels-photo-3766211.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/13211985/pexels-photo-13211985.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/6764049/pexels-photo-6764049.jpeg?auto=compress&cs=tinysrgb&w=800'
-    ];
-
-    // Return a random high-quality clothing image as fallback
-    const randomIndex = Math.floor(Math.random() * clothingImages.length);
-    const fallbackUrl = clothingImages[randomIndex];
-
-    console.log('Using fallback image:', fallbackUrl);
-    return fallbackUrl;
+    // Re-throw the error so the caller can handle it
+    // (ProductForm will convert to base64 as fallback)
+    throw new Error(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
