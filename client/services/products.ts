@@ -44,6 +44,33 @@ export function getDiscountPercentage(originalPrice: number, discountedPrice: nu
   return Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
 }
 
+// Utility function to validate and sanitize product data
+export function sanitizeProduct(product: any): Product {
+  return {
+    id: product.id || 'unknown',
+    name: product.name || 'Unknown Product',
+    price: Number(product.price) || 0,
+    originalPrice: Number(product.originalPrice) || Number(product.price) || 0,
+    description: product.description || 'No description available',
+    category: product.category || 'Uncategorized',
+    sizes: Array.isArray(product.sizes) ? product.sizes : ['M'],
+    colors: Array.isArray(product.colors)
+      ? product.colors.map((color: any, index: number) => ({
+          name: color?.name || `Color ${index + 1}`,
+          value: color?.value || '#FFFFFF'
+        }))
+      : [{ name: 'Default', value: '#FFFFFF' }],
+    images: Array.isArray(product.images) && product.images.length > 0
+      ? product.images
+      : ['/placeholder.svg'],
+    features: Array.isArray(product.features) ? product.features : ['No features listed'],
+    rating: Number(product.rating) || 4.5,
+    reviews: Number(product.reviews) || 0,
+    createdAt: product.createdAt || new Date(),
+    updatedAt: product.updatedAt || new Date()
+  };
+}
+
 const PRODUCTS_COLLECTION = 'products';
 
 // Get all products
