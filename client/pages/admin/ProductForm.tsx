@@ -74,6 +74,17 @@ export default function ProductForm() {
     }
   }, [isEdit, id]);
 
+  // Cleanup blob URLs on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      formData.images.forEach(image => {
+        if (image.startsWith('blob:')) {
+          URL.revokeObjectURL(image);
+        }
+      });
+    };
+  }, []);
+
   const loadProduct = async (productId: string) => {
     try {
       setLoading(true);
