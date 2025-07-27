@@ -127,8 +127,25 @@ function getLocalProducts(): Product[] {
 
 // Get single product
 export async function getProduct(id: string): Promise<Product | null> {
+  // First try localStorage (faster and more reliable)
   try {
-    console.log('Fetching product with ID:', id);
+    console.log('Checking localStorage for product ID:', id);
+    const localProducts = localStorage.getItem('s2-wear-products');
+    if (localProducts) {
+      const products = JSON.parse(localProducts);
+      const foundProduct = products.find((p: Product) => p.id === id);
+      if (foundProduct) {
+        console.log('Product found in localStorage:', foundProduct.name);
+        return foundProduct;
+      }
+    }
+  } catch (error) {
+    console.warn('Error reading from localStorage:', error);
+  }
+
+  // Try Firebase as secondary option
+  try {
+    console.log('Fetching from Firebase for product ID:', id);
     const docRef = doc(db, PRODUCTS_COLLECTION, id);
     const docSnap = await getDoc(docRef);
 
@@ -140,27 +157,26 @@ export async function getProduct(id: string): Promise<Product | null> {
       console.log('Product found in Firebase:', product.name);
       return product;
     }
-
-    console.log('Product not found in Firebase, checking localStorage...');
   } catch (error) {
-    console.error('Error getting product from Firebase, checking localStorage:', error);
+    console.warn('Firebase fetch failed (network/extension issue):', error.message);
+    // This is common with Chrome extensions or network issues
   }
 
-  // Fallback to localStorage
+  // Final fallback - load all products and find the one we need
   try {
+    console.log('Trying fallback method...');
     const allProducts = await getProducts();
     const foundProduct = allProducts.find(p => p.id === id);
     if (foundProduct) {
-      console.log('Product found in localStorage:', foundProduct.name);
+      console.log('Product found via fallback:', foundProduct.name);
       return foundProduct;
     }
-
-    console.log('Product not found in localStorage either');
-    return null;
   } catch (error) {
-    console.error('Error getting product from localStorage:', error);
-    return null;
+    console.error('All product loading methods failed:', error);
   }
+
+  console.log('Product not found with ID:', id);
+  return null;
 }
 
 // Add new product
