@@ -237,6 +237,13 @@ export default function ProductForm() {
   };
 
   const removeImage = (index: number) => {
+    const imageToRemove = formData.images[index];
+
+    // Clean up blob URLs to prevent memory leaks
+    if (imageToRemove && imageToRemove.startsWith('blob:')) {
+      URL.revokeObjectURL(imageToRemove);
+    }
+
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
