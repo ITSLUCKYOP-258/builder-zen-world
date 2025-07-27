@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ArrowRight, Star, Truck, Shield, Recycle, ShoppingCart } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useCart } from '@/hooks/useCart'
-import { getProducts, type Product } from '@/services/products'
+import { getProducts, formatINR, getDiscountPercentage, type Product } from '@/services/products'
 
 const features = [
   {
