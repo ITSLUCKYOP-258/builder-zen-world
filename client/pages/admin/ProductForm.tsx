@@ -136,9 +136,29 @@ export default function ProductForm() {
         console.log('Product added successfully with ID:', newId);
       }
 
-      // Show success message
+      // Show success message and refresh
       alert(isEdit ? 'Product updated successfully!' : 'Product added successfully!');
-      navigate('/admin/dashboard');
+
+      // Force a page refresh to ensure data sync
+      if (!isEdit) {
+        // For new products, clear form and reset to new state
+        setFormData({
+          name: '',
+          price: 29.99,
+          description: '',
+          category: 'T-Shirts',
+          sizes: ['M', 'L'],
+          colors: [{ name: 'White', value: '#FFFFFF' }],
+          images: [],
+          features: ['100% Cotton', 'Machine Washable']
+        });
+
+        // Stay on form for adding more products
+        // navigate('/admin/dashboard');
+      } else {
+        // For edits, go back to dashboard
+        navigate('/admin/dashboard');
+      }
     } catch (err: any) {
       console.error('Error saving product:', err);
       setError(err.message || 'Failed to save product. Please check your Firebase configuration.');
