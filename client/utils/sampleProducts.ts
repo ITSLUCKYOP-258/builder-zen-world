@@ -142,7 +142,8 @@ export const sampleProducts = [
   // Jackets (4 products)
   {
     name: "Classic Denim Jacket",
-    price: 89.99,
+    originalPrice: 10999,
+    price: 8499, // 23% off
     description: "Timeless denim jacket with vintage-inspired details. Features classic button closure and multiple pockets for functionality.",
     category: "Jackets",
     sizes: ["S", "M", "L", "XL"],
@@ -156,7 +157,8 @@ export const sampleProducts = [
   },
   {
     name: "Bomber Jacket",
-    price: 94.99,
+    originalPrice: 11999,
+    price: 8999, // 25% off
     description: "Contemporary bomber jacket with ribbed cuffs and hem. Perfect for adding a modern edge to any outfit.",
     category: "Jackets",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -170,7 +172,8 @@ export const sampleProducts = [
   },
   {
     name: "Windbreaker",
-    price: 67.99,
+    originalPrice: 8499,
+    price: 6299, // 26% off
     description: "Lightweight windbreaker perfect for unpredictable weather. Water-resistant and packable for on-the-go convenience.",
     category: "Jackets",
     sizes: ["S", "M", "L", "XL"],
@@ -184,7 +187,8 @@ export const sampleProducts = [
   },
   {
     name: "Leather Jacket",
-    price: 189.99,
+    originalPrice: 22999,
+    price: 17999, // 22% off
     description: "Premium leather jacket with classic moto styling. Crafted from genuine leather with attention to detail and quality.",
     category: "Jackets",
     sizes: ["S", "M", "L", "XL"],
@@ -199,7 +203,8 @@ export const sampleProducts = [
   // Sweatshirts (3 products)
   {
     name: "Classic Crewneck Sweatshirt",
-    price: 52.99,
+    originalPrice: 6999,
+    price: 4999, // 29% off
     description: "Comfortable crewneck sweatshirt with a relaxed fit. Made from soft cotton blend for all-day comfort.",
     category: "Sweatshirts",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -213,7 +218,8 @@ export const sampleProducts = [
   },
   {
     name: "Half-Zip Pullover",
-    price: 59.99,
+    originalPrice: 7499,
+    price: 5699, // 24% off
     description: "Versatile half-zip pullover that transitions easily from gym to street. Features moisture-wicking properties.",
     category: "Sweatshirts",
     sizes: ["S", "M", "L", "XL"],
@@ -227,7 +233,8 @@ export const sampleProducts = [
   },
   {
     name: "Embroidered Logo Sweatshirt",
-    price: 64.99,
+    originalPrice: 7999,
+    price: 6199, // 23% off
     description: "Premium sweatshirt featuring embroidered S2 Wear logo. Luxurious feel with attention to detail and craftsmanship.",
     category: "Sweatshirts",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -243,7 +250,8 @@ export const sampleProducts = [
   // Pants (2 products)
   {
     name: "Relaxed Fit Jeans",
-    price: 79.99,
+    originalPrice: 9999,
+    price: 7499, // 25% off
     description: "Comfortable relaxed fit jeans with classic five-pocket styling. Perfect for everyday wear with a timeless appeal.",
     category: "Pants",
     sizes: ["30", "32", "34", "36", "38"],
@@ -257,7 +265,8 @@ export const sampleProducts = [
   },
   {
     name: "Cargo Pants",
-    price: 69.99,
+    originalPrice: 8999,
+    price: 6699, // 26% off
     description: "Functional cargo pants with multiple pockets and adjustable cuffs. Perfect blend of utility and street style.",
     category: "Pants",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -273,7 +282,8 @@ export const sampleProducts = [
   // Accessories (2 products)
   {
     name: "Classic Baseball Cap",
-    price: 24.99,
+    originalPrice: 2999,
+    price: 1999, // 33% off
     description: "Timeless baseball cap with embroidered S2 Wear logo. Adjustable strap ensures perfect fit for all head sizes.",
     category: "Accessories",
     sizes: ["One Size"],
@@ -288,7 +298,8 @@ export const sampleProducts = [
   },
   {
     name: "Logo Beanie",
-    price: 19.99,
+    originalPrice: 2499,
+    price: 1799, // 28% off
     description: "Warm knit beanie with woven S2 Wear label. Perfect for cold weather while maintaining street style credibility.",
     category: "Accessories",
     sizes: ["One Size"],
