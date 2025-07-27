@@ -17,15 +17,15 @@ export default function Cart() {
   }
 
   const subtotal = totalPrice
-  const shipping = subtotal > 50 ? 0 : 9.99
+  const shipping = subtotal > 2000 ? 0 : 199 // Free shipping over ₹2000, otherwise ₹199
   const total = subtotal + shipping
 
   const handleWhatsAppCheckout = () => {
-    const orderDetails = cartItems.map(item => 
-      `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - $${(item.price * item.quantity).toFixed(2)}`
+    const orderDetails = cartItems.map(item =>
+      `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - ${formatINR(item.price * item.quantity)}`
     ).join('\n')
-    
-    const message = `Hi! I'd like to place an order:\n\n${orderDetails}\n\nSubtotal: $${subtotal.toFixed(2)}\nShipping: $${shipping.toFixed(2)}\nTotal: $${total.toFixed(2)}\n\nPlease let me know how to proceed with payment and delivery. Thank you!`
+
+    const message = `Hi! I'd like to place an order:\n\n${orderDetails}\n\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease let me know how to proceed with payment and delivery. Thank you!`
     
     const phoneNumber = "1234567890" // Replace with actual WhatsApp number
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
