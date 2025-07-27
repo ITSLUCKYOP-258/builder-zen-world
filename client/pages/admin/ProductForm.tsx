@@ -363,7 +363,7 @@ export default function ProductForm() {
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Product Name *</Label>
                   <Input
@@ -375,19 +375,44 @@ export default function ProductForm() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="price">Price ($) *</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={formData.price}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
-                    placeholder="29.99"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="originalPrice">Original Price (₹) *</Label>
+                    <Input
+                      id="originalPrice"
+                      type="number"
+                      step="1"
+                      min="0"
+                      value={formData.originalPrice}
+                      onChange={(e) => setFormData(prev => ({ ...prev, originalPrice: parseInt(e.target.value) || 0 }))}
+                      placeholder="2999"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Discounted Price (₹) *</Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      step="1"
+                      min="0"
+                      value={formData.price}
+                      onChange={(e) => setFormData(prev => ({ ...prev, price: parseInt(e.target.value) || 0 }))}
+                      placeholder="2299"
+                      required
+                    />
+                  </div>
                 </div>
+
+                {formData.originalPrice > 0 && formData.price > 0 && formData.originalPrice > formData.price && (
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                    <p className="text-sm text-green-800 dark:text-green-200">
+                      💰 <strong>Discount:</strong> {Math.round(((formData.originalPrice - formData.price) / formData.originalPrice) * 100)}% OFF
+                      (Save ₹{formData.originalPrice - formData.price})
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
