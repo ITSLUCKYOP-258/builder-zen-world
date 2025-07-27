@@ -164,9 +164,9 @@ export default function ProductDetail() {
             
             {/* Thumbnail Images */}
             <div className="grid grid-cols-3 gap-3">
-              {product.images.map((image, index) => (
+              {(product.images || []).map((image, index) => (
                 <button
-                  key={index}
+                  key={`thumbnail-${index}`}
                   onClick={() => setSelectedImage(index)}
                   className={`aspect-square bg-card rounded-lg overflow-hidden border-2 transition-colors ${
                     selectedImage === index ? 'border-primary' : 'border-transparent'
