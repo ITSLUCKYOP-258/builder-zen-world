@@ -149,22 +149,20 @@ export default function AdminDashboard() {
               variant="outline"
               size="lg"
               onClick={async () => {
-                if (confirm('Add 20 sample products to your store? This will populate your catalog with diverse clothing items.')) {
+                if (confirm('Add 20 sample products to your store? This will populate your catalog with diverse clothing items across all categories.')) {
                   try {
-                    // Import and run the sample products script
-                    const { addSampleProducts } = await import('../../scripts/addSampleProducts');
-                    await addSampleProducts();
-                    alert('Successfully added 20 sample products! Refreshing page...');
+                    await addAllSampleProducts();
+                    alert('🎉 Successfully added 20 sample products! Your store is now fully stocked. Refreshing page...');
                     window.location.reload();
                   } catch (error) {
                     console.error('Error adding sample products:', error);
-                    alert('Error adding sample products. Please try again.');
+                    alert('Some products failed to add. Check console for details and try again.');
                   }
                 }
               }}
               className="shadow-soft"
             >
-              🎯 Add Sample Products
+              🎯 Add 20 Sample Products
             </Button>
             <Link to="/admin/products/new">
               <Button size="lg" className="shadow-soft">
