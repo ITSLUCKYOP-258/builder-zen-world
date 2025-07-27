@@ -166,11 +166,26 @@ export default function Products() {
                     </div>
                     
                     <div className="flex items-center justify-between pt-2">
-                      <span className="font-poppins font-bold text-lg text-foreground">
-                        ${product.price}
-                      </span>
-                      <div className="text-xs text-muted-foreground">
-                        {product.sizes.length} sizes
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-poppins font-bold text-lg text-foreground">
+                            {formatINR(product.price)}
+                          </span>
+                          {product.originalPrice && product.originalPrice > product.price && (
+                            <span className="text-sm text-muted-foreground line-through">
+                              {formatINR(product.originalPrice)}
+                            </span>
+                          )}
+                        </div>
+                        {product.originalPrice && product.originalPrice > product.price && (
+                          <div className="text-xs text-green-600 font-medium">
+                            {getDiscountPercentage(product.originalPrice, product.price)}% OFF
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-xs text-muted-foreground text-right">
+                        <div>{product.sizes.length} sizes</div>
+                        <div>{product.colors.length} colors</div>
                       </div>
                     </div>
                   </div>
