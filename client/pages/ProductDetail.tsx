@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Star, ShoppingCart, Heart, ArrowLeft, Check } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
+import { formatINR, getDiscountPercentage } from '@/services/products'
 
 // Mock product data
 const product = {
