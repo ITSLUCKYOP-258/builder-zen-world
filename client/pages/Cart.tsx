@@ -84,7 +84,7 @@ export default function Cart() {
                         Size: {item.size} • Color: {item.color}
                       </p>
                       <p className="font-semibold text-foreground">
-                        ${item.price.toFixed(2)}
+                        {formatINR(item.price)}
                       </p>
                     </div>
 
@@ -114,7 +114,7 @@ export default function Cart() {
 
                     <div className="text-right">
                       <p className="font-poppins font-semibold text-foreground">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {formatINR(item.price * item.quantity)}
                       </p>
                       <Button
                         variant="ghost"
@@ -142,24 +142,24 @@ export default function Cart() {
                 <div className="space-y-3">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal ({itemCount} items)</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatINR(subtotal)}</span>
                   </div>
                   
                   <div className="flex justify-between text-muted-foreground">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                    <span>{shipping === 0 ? 'Free' : formatINR(shipping)}</span>
                   </div>
                   
-                  {subtotal < 50 && (
+                  {subtotal < 2000 && (
                     <p className="text-sm text-muted-foreground">
-                      Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                      Add {formatINR(2000 - subtotal)} more for free shipping!
                     </p>
                   )}
                   
                   <div className="border-t border-border pt-3">
                     <div className="flex justify-between font-poppins font-semibold text-lg text-foreground">
                       <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>{formatINR(total)}</span>
                     </div>
                   </div>
                 </div>
