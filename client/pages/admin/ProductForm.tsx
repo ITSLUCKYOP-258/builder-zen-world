@@ -126,7 +126,19 @@ export default function ProductForm() {
     }
 
     if (formData.price <= 0) {
-      setError('Price must be greater than 0');
+      setError('Discounted price must be greater than 0');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.originalPrice <= 0) {
+      setError('Original price must be greater than 0');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.originalPrice < formData.price) {
+      setError('Original price must be greater than or equal to discounted price');
       setLoading(false);
       return;
     }
