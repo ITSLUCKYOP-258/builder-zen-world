@@ -5,12 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { getProducts, deleteProduct, type Product } from '@/services/products';
-import { 
-  Package, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  LogOut, 
+import { addAllSampleProducts } from '@/utils/sampleProducts';
+import {
+  Package,
+  Plus,
+  Edit,
+  Trash2,
+  LogOut,
   DollarSign,
   ShoppingBag,
   TrendingUp
