@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Star, Filter, ShoppingCart } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
-import { getProducts, type Product } from '@/services/products'
+import { getProducts, formatINR, getDiscountPercentage, type Product } from '@/services/products'
 
 const CATEGORIES = ['All', 'T-Shirts', 'Hoodies', 'Jackets', 'Sweatshirts', 'Pants', 'Accessories']
 
