@@ -242,7 +242,7 @@ export default function ProductDetail() {
             {/* Color Selection */}
             <div className="space-y-3">
               <h3 className="font-poppins font-semibold text-foreground">
-                Color: {selectedColor.name}
+                Color: {selectedColor?.name || 'Select a color'}
               </h3>
               <div className="flex space-x-2">
                 {product.colors.map((color) => (
@@ -250,8 +250,8 @@ export default function ProductDetail() {
                     key={color.name}
                     onClick={() => setSelectedColor(color)}
                     className={`w-8 h-8 rounded-full border-2 transition-all ${
-                      selectedColor.name === color.name 
-                        ? 'border-primary scale-110' 
+                      selectedColor?.name === color.name
+                        ? 'border-primary scale-110'
                         : 'border-gray-300'
                     }`}
                     style={{ backgroundColor: color.value }}
