@@ -245,17 +245,17 @@ export default function ProductDetail() {
                 Color: {selectedColor?.name || 'Select a color'}
               </h3>
               <div className="flex space-x-2">
-                {(product.colors || []).map((color) => (
+                {(product.colors || []).map((color, index) => (
                   <button
-                    key={`color-${color.name}`}
+                    key={`color-${color.name || 'unknown'}-${index}`}
                     onClick={() => setSelectedColor(color)}
                     className={`w-8 h-8 rounded-full border-2 transition-all ${
                       selectedColor?.name === color.name
                         ? 'border-primary scale-110'
                         : 'border-gray-300'
                     }`}
-                    style={{ backgroundColor: color.value }}
-                    title={color.name}
+                    style={{ backgroundColor: color.value || '#FFFFFF' }}
+                    title={color.name || 'Unknown Color'}
                   />
                 ))}
               </div>
