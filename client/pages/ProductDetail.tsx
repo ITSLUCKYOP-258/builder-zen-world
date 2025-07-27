@@ -18,8 +18,8 @@ const fallbackProduct: Product = {
   rating: 4.5,
   reviews: 0,
   category: "T-Shirts",
-  description: "Product details are not available.",
-  features: ["Product not found"],
+  description: "Sorry, this product could not be found. Please try browsing our other products.",
+  features: ["Product not available"],
   colors: [
     { name: "Default", value: "#FFFFFF" }
   ],
