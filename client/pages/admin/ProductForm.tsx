@@ -169,7 +169,8 @@ export default function ProductForm() {
         // For new products, clear form and reset to new state
         setFormData({
           name: '',
-          price: 29.99,
+          originalPrice: 2999,
+          price: 2299,
           description: '',
           category: 'T-Shirts',
           sizes: ['M', 'L'],
