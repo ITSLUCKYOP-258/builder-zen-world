@@ -101,96 +101,100 @@ export default function Products() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProducts.map((product) => (
-              <Card key={product.id} className="group hover:shadow-soft-lg transition-all duration-300 border-0 bg-card">
-                <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <img
-                      src={product.images[0] || '/placeholder.svg'}
-                      alt={product.name}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
-                        {product.category}
-                      </span>
-                    </div>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <Button
-                        size="sm"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handleAddToCart(product)
-                        }}
-                        className="shadow-lg"
-                      >
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Quick Add
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <Link 
-                        to={`/product/${product.id}`}
-                        className="font-medium text-foreground group-hover:text-primary transition-colors flex-1"
-                      >
-                        {product.name}
-                      </Link>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-3 w-3 fill-current text-yellow-500" />
-                        <span className="text-xs text-muted-foreground">
-                          {product.rating || 4.5}
+              <Link
+                key={product.id}
+                to={`/product/${product.id}`}
+                className="block group"
+              >
+                <Card className="group-hover:shadow-soft-lg transition-all duration-300 border-0 bg-card cursor-pointer">
+                  <CardContent className="p-0">
+                    <div className="relative overflow-hidden rounded-t-lg">
+                      <img
+                        src={product.images[0] || '/placeholder.svg'}
+                        alt={product.name}
+                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
+                          {product.category}
                         </span>
                       </div>
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <Button
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            handleAddToCart(product)
+                          }}
+                          className="shadow-lg"
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-2" />
+                          Quick Add
+                        </Button>
+                      </div>
                     </div>
-                    
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {product.description}
-                    </p>
-                    
-                    <div className="flex items-center space-x-2">
-                      {product.colors.slice(0, 3).map((color, index) => (
-                        <div
-                          key={index}
-                          className="w-4 h-4 rounded-full border border-border"
-                          style={{ backgroundColor: color.value }}
-                          title={color.name}
-                        />
-                      ))}
-                      {product.colors.length > 3 && (
-                        <span className="text-xs text-muted-foreground">
-                          +{product.colors.length - 3} more
-                        </span>
-                      )}
-                    </div>
-                    
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-poppins font-bold text-lg text-foreground">
-                            {formatINR(product.price)}
+
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors flex-1">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-3 w-3 fill-current text-yellow-500" />
+                          <span className="text-xs text-muted-foreground">
+                            {product.rating || 4.5}
                           </span>
-                          {product.originalPrice && product.originalPrice > product.price && (
-                            <span className="text-sm text-muted-foreground line-through">
-                              {formatINR(product.originalPrice)}
-                            </span>
-                          )}
                         </div>
-                        {product.originalPrice && product.originalPrice > product.price && (
-                          <div className="text-xs text-green-600 font-medium">
-                            {getDiscountPercentage(product.originalPrice, product.price)}% OFF
-                          </div>
+                      </div>
+
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {product.description}
+                      </p>
+
+                      <div className="flex items-center space-x-2">
+                        {product.colors.slice(0, 3).map((color, index) => (
+                          <div
+                            key={index}
+                            className="w-4 h-4 rounded-full border border-border"
+                            style={{ backgroundColor: color.value }}
+                            title={color.name}
+                          />
+                        ))}
+                        {product.colors.length > 3 && (
+                          <span className="text-xs text-muted-foreground">
+                            +{product.colors.length - 3} more
+                          </span>
                         )}
                       </div>
-                      <div className="text-xs text-muted-foreground text-right">
-                        <div>{product.sizes.length} sizes</div>
-                        <div>{product.colors.length} colors</div>
+
+                      <div className="flex items-center justify-between pt-2">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-poppins font-bold text-lg text-foreground">
+                              {formatINR(product.price)}
+                            </span>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <span className="text-sm text-muted-foreground line-through">
+                                {formatINR(product.originalPrice)}
+                              </span>
+                            )}
+                          </div>
+                          {product.originalPrice && product.originalPrice > product.price && (
+                            <div className="text-xs text-green-600 font-medium">
+                              {getDiscountPercentage(product.originalPrice, product.price)}% OFF
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-xs text-muted-foreground text-right">
+                          <div>{product.sizes.length} sizes</div>
+                          <div>{product.colors.length} colors</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         )}
