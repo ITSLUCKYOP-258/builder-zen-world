@@ -427,7 +427,7 @@ export default function ProductForm() {
                           {uploadingImages ? 'Uploading images...' : 'Click to upload product images'}
                         </p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          PNG, JPG, WEBP up to 10MB each. First image will be the main product image.
+                          PNG, JPG, WEBP up to 5MB each. Images will upload to cloud or save locally. First image will be the main product image.
                         </p>
                       </div>
                     </div>
