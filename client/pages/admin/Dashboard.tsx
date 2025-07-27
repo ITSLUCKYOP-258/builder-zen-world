@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
-import { getProducts, deleteProduct, type Product } from '@/services/products';
+import { getProducts, deleteProduct, formatINR, type Product } from '@/services/products';
 import { addAllSampleProducts } from '@/utils/sampleProducts';
 import {
   Package,
