@@ -4,42 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ArrowRight, Star, Truck, Shield, Recycle, ShoppingCart } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useCart } from '@/hooks/useCart'
-
-// Mock featured products data
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Premium Cotton T-Shirt",
-    price: 29.99,
-    image: "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
-    rating: 4.8,
-    category: "T-Shirts"
-  },
-  {
-    id: 2,
-    name: "Cozy Pullover Hoodie",
-    price: 59.99,
-    image: "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
-    rating: 4.9,
-    category: "Hoodies"
-  },
-  {
-    id: 3,
-    name: "Classic Denim Jacket",
-    price: 89.99,
-    image: "https://images.pexels.com/photos/6276009/pexels-photo-6276009.jpeg?auto=compress&cs=tinysrgb&w=800",
-    rating: 4.7,
-    category: "Jackets"
-  },
-  {
-    id: 4,
-    name: "Vintage Logo Sweatshirt",
-    price: 49.99,
-    image: "https://images.pexels.com/photos/10481315/pexels-photo-10481315.jpeg?auto=compress&cs=tinysrgb&w=800",
-    rating: 4.8,
-    category: "Sweatshirts"
-  }
-]
+import { getProducts, type Product } from '@/services/products'
 
 const features = [
   {
