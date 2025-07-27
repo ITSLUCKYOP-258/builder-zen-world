@@ -93,6 +93,7 @@ export default function ProductForm() {
       if (product) {
         setFormData({
           name: product.name,
+          originalPrice: product.originalPrice || product.price + 500, // Default to current price + 500 if no original price
           price: product.price,
           description: product.description,
           category: product.category,
