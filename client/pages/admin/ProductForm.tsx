@@ -495,7 +495,7 @@ export default function ProductForm() {
                     ))}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    💡 Tip: The first image will be used as the main product image. Drag images to reorder.
+                    💡 Tip: Images with 💾 are saved locally, ☁️ are uploaded to cloud, 🎭 are demo images. First image is the main product image.
                   </p>
                 </div>
               )}
