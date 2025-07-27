@@ -143,12 +143,35 @@ export default function AdminDashboard() {
             <p className="text-muted-foreground">Manage your S2 Wear products and inventory without touching any code</p>
           </div>
 
-          <Link to="/admin/products/new">
-            <Button size="lg" className="shadow-soft">
-              <Plus className="h-5 w-5 mr-2" />
-              Add New Product
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={async () => {
+                if (confirm('Add 20 sample products to your store? This will populate your catalog with diverse clothing items.')) {
+                  try {
+                    // Import and run the sample products script
+                    const { addSampleProducts } = await import('../../scripts/addSampleProducts');
+                    await addSampleProducts();
+                    alert('Successfully added 20 sample products! Refreshing page...');
+                    window.location.reload();
+                  } catch (error) {
+                    console.error('Error adding sample products:', error);
+                    alert('Error adding sample products. Please try again.');
+                  }
+                }
+              }}
+              className="shadow-soft"
+            >
+              🎯 Add Sample Products
             </Button>
-          </Link>
+            <Link to="/admin/products/new">
+              <Button size="lg" className="shadow-soft">
+                <Plus className="h-5 w-5 mr-2" />
+                Add New Product
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Quick Guide */}
