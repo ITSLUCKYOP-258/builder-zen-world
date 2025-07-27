@@ -21,15 +21,19 @@ export default function Cart() {
   const total = subtotal + shipping
 
   const handleWhatsAppCheckout = () => {
-    const orderDetails = cartItems.map(item =>
-      `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - ${formatINR(item.price * item.quantity)}`
-    ).join('\n')
+    // Get current website URL for product links
+    const baseUrl = window.location.origin
 
-    const message = `Hi! I'd like to place an order:\n\n${orderDetails}\n\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease let me know how to proceed with payment and delivery. Thank you!`
-    
+    const orderDetails = cartItems.map(item => {
+      const productLink = `${baseUrl}/product/${item.id}`
+      return `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - ${formatINR(item.price * item.quantity)}\n🔗 Product: ${productLink}`
+    }).join('\n\n')
+
+    const message = `Hello! 👋\n\nI want to place my order from S2 Wear:\n\n${orderDetails}\n\n💰 Order Summary:\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease confirm my order and let me know the payment process. Looking forward to your response!\n\nThank you! 😊`
+
     const phoneNumber = "919009402002" // S2 Wear WhatsApp number with country code
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
-    
+
     window.open(whatsappUrl, '_blank')
   }
 
