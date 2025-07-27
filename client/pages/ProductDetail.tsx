@@ -149,8 +149,27 @@ export default function ProductDetail() {
                 </div>
               </div>
               
-              <div className="font-poppins font-bold text-3xl text-foreground">
-                ${product.price}
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="font-poppins font-bold text-3xl text-foreground">
+                    {formatINR(product.price)}
+                  </div>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <div className="font-poppins text-xl text-muted-foreground line-through">
+                      {formatINR(product.originalPrice)}
+                    </div>
+                  )}
+                </div>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <div className="flex items-center gap-2">
+                    <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-sm font-medium">
+                      {getDiscountPercentage(product.originalPrice, product.price)}% OFF
+                    </div>
+                    <div className="text-sm text-green-600 dark:text-green-400 font-medium">
+                      You save {formatINR(product.originalPrice - product.price)}!
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
