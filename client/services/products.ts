@@ -180,10 +180,11 @@ export async function getProduct(id: string): Promise<Product | null> {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const product = {
+      const rawProduct = {
         id: docSnap.id,
         ...docSnap.data()
-      } as Product;
+      };
+      const product = sanitizeProduct(rawProduct);
       console.log('Product found in Firebase:', product.name);
       return product;
     }
