@@ -156,8 +156,11 @@ export default function ProductForm() {
     setError('');
 
     try {
-      const uploadPromises = Array.from(files).map(async (file, index) => {
-        console.log(`Uploading file ${index + 1}:`, file.name, 'Size:', file.size);
+      const newImages: string[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log(`Processing file ${i + 1}:`, file.name, 'Size:', file.size);
 
         // Validate file size (10MB limit)
         if (file.size > 10 * 1024 * 1024) {
@@ -169,19 +172,34 @@ export default function ProductForm() {
           throw new Error(`File ${file.name} is not a valid image file.`);
         }
 
-        const tempId = `${Date.now()}-${index}`;
-        const url = await uploadProductImage(file, tempId);
-        console.log(`File ${file.name} uploaded successfully:`, url);
-        return url;
-      });
+        // Create local preview URL immediately
+        const localPreviewUrl = URL.createObjectURL(file);
+        newImages.push(localPreviewUrl);
 
-      const urls = await Promise.all(uploadPromises);
-      setFormData(prev => ({
-        ...prev,
-        images: [...prev.images, ...urls]
-      }));
+        // Update UI immediately with preview
+        setFormData(prev => ({
+          ...prev,
+          images: [...prev.images, localPreviewUrl]
+        }));
 
-      console.log('All images uploaded successfully');
+        try {
+          // Try to upload to Firebase in background
+          const tempId = `${Date.now()}-${i}`;
+          const firebaseUrl = await uploadProductImage(file, tempId);
+          console.log(`File ${file.name} uploaded to Firebase:`, firebaseUrl);
+
+          // Replace local URL with Firebase URL
+          setFormData(prev => ({
+            ...prev,
+            images: prev.images.map(img => img === localPreviewUrl ? firebaseUrl : img)
+          }));
+        } catch (uploadError) {
+          console.warn('Firebase upload failed, keeping local preview:', uploadError);
+          // Keep local preview URL if Firebase fails
+        }
+      }
+
+      console.log('Image processing completed');
 
       // Clear the file input
       e.target.value = '';
@@ -386,25 +404,48 @@ export default function ProductForm() {
               </div>
 
               {formData.images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {formData.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image}
-                        alt={`Product ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg border border-border"
-                      />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute -top-2 -right-2 h-6 w-6"
-                        onClick={() => removeImage(index)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    {formData.images.length} image{formData.images.length > 1 ? 's' : ''} added
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {formData.images.map((image, index) => (
+                      <div key={index} className="relative group">
+                        <div className="relative overflow-hidden rounded-lg border border-border bg-accent">
+                          <img
+                            src={image}
+                            alt={`Product ${index + 1}`}
+                            className="w-full h-24 object-cover transition-transform group-hover:scale-105"
+                            onError={(e) => {
+                              console.warn('Image failed to load:', image);
+                              // Replace with placeholder on error
+                              (e.target as HTMLImageElement).src = '/placeholder.svg';
+                            }}
+                            onLoad={() => {
+                              console.log('Image loaded successfully:', image);
+                            }}
+                          />
+                          {index === 0 && (
+                            <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
+                              Main
+                            </div>
+                          )}
+                        </div>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => removeImage(index)}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    💡 Tip: The first image will be used as the main product image. Drag images to reorder.
+                  </p>
                 </div>
               )}
             </CardContent>
