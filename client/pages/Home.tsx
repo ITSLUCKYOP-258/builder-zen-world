@@ -170,13 +170,13 @@ export default function Home() {
       </section>
 
       {/* Featured Products Carousel */}
-      <section className="py-20 bg-card">
+      <section className="py-20 bg-card relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="font-poppins font-bold text-3xl lg:text-4xl text-foreground mb-4">
+            <h2 className="font-poppins font-bold text-3xl lg:text-4xl text-foreground mb-4 animate-slide-up">
               Featured Products
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto animate-fade-in stagger-delay-1">
               Discover our most popular items, carefully selected for quality,
               style, and comfort.
             </p>
