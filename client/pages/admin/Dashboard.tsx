@@ -18,16 +18,13 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // For development/demo purposes, allow access without authentication
-  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname.includes('builder.codes');
-
-  // Redirect if not logged in (except in development mode)
-  if (!user && !isDevelopment) {
+  // Redirect if not an authorized admin
+  if (!isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }
 
@@ -117,21 +114,12 @@ export default function AdminDashboard() {
             
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">
-                Welcome, {user?.email || 'Demo Mode'}
+                Welcome, {user?.email}
               </span>
-              {user ? (
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              ) : (
-                <Link to="/admin/login">
-                  <Button variant="outline" size="sm">
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Login
-                  </Button>
-                </Link>
-              )}</div>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button></div>
           </div>
         </div>
       </header>
