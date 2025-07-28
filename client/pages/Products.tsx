@@ -94,38 +94,38 @@ export default function Products() {
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-16">
+          <div className="text-center py-16 animate-fade-in">
             <p className="text-muted-foreground mb-4">
-              {activeCategory === 'All' 
-                ? 'No products available yet. Check back soon!' 
+              {activeCategory === 'All'
+                ? 'No products available yet. Check back soon!'
                 : `No products found in ${activeCategory} category.`}
             </p>
             <Link to="/admin/dashboard">
-              <Button variant="outline">Add Products via Admin Panel</Button>
+              <Button variant="outline" className="hover-lift">Add Products via Admin Panel</Button>
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product, index) => (
               <Link
                 key={product.id}
                 to={`/product/${product.id}`}
-                className="block group"
+                className={`block group animate-scale-in stagger-delay-${(index % 4) + 1}`}
               >
-                <Card className="group-hover:shadow-soft-lg transition-all duration-300 border-0 bg-card cursor-pointer">
+                <Card className="group-hover:shadow-soft-lg transition-all duration-500 border-0 bg-card cursor-pointer hover-lift overflow-hidden">
                   <CardContent className="p-0">
                     <div className="relative overflow-hidden rounded-t-lg">
                       <img
                         src={product.images[0] || '/placeholder.svg'}
                         alt={product.name}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-all duration-500"
                       />
-                      <div className="absolute top-3 left-3">
-                        <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium">
+                      <div className="absolute top-3 left-3 transform group-hover:scale-105 transition-transform duration-300">
+                        <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full font-medium animate-pulse-glow">
                           {product.category}
                         </span>
                       </div>
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <Button
                           size="sm"
                           onClick={(e) => {
@@ -133,7 +133,7 @@ export default function Products() {
                             e.stopPropagation()
                             handleAddToCart(product)
                           }}
-                          className="shadow-lg"
+                          className="shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 hover-glow"
                         >
                           <ShoppingCart className="h-4 w-4 mr-2" />
                           Quick Add
