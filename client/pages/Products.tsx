@@ -51,7 +51,12 @@ export default function Products() {
       <div className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <p className="text-muted-foreground">Loading products...</p>
+            <div className="flex justify-center space-x-2 mb-4">
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+            </div>
+            <p className="text-muted-foreground animate-pulse">Loading products...</p>
           </div>
         </div>
       </div>
@@ -63,22 +68,23 @@ export default function Products() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="font-poppins font-bold text-4xl md:text-5xl text-foreground mb-4">
+          <h1 className="font-poppins font-bold text-4xl md:text-5xl text-foreground mb-4 animate-slide-up">
             Our Collection
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in stagger-delay-1">
             Discover premium streetwear that combines comfort, style, and quality craftsmanship
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {CATEGORIES.map((category) => (
+        <div className="flex flex-wrap justify-center gap-4 mb-12 animate-scale-in stagger-delay-2">
+          {CATEGORIES.map((category, index) => (
             <Button
               key={category}
               variant={activeCategory === category ? "default" : "outline"}
               onClick={() => setActiveCategory(category)}
-              className="font-medium"
+              className={`font-medium transition-all duration-300 hover-lift ${activeCategory === category ? 'animate-pulse-glow' : 'hover-glow'}`}
+              style={{animationDelay: `${index * 0.1}s`}}
             >
               <Filter className="h-4 w-4 mr-2" />
               {category}
