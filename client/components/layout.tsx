@@ -53,17 +53,17 @@ export function Layout({ children }: LayoutProps) {
             </div>
 
             {/* Right side - Theme toggle and Cart */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 animate-slide-in-right">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
-                className="text-foreground hover:text-primary"
+                className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover:rotate-12"
               >
                 {theme === 'dark' ? (
-                  <Sun className="h-5 w-5" />
+                  <Sun className="h-5 w-5 animate-spin-slow" />
                 ) : (
-                  <Moon className="h-5 w-5" />
+                  <Moon className="h-5 w-5 animate-pulse" />
                 )}
               </Button>
 
@@ -71,12 +71,12 @@ export function Layout({ children }: LayoutProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-foreground hover:text-primary relative"
+                  className="text-foreground hover:text-primary relative transition-all duration-300 hover:scale-110 hover-glow"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   {/* Cart count badge */}
                   {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center animate-bounce-in animate-pulse-glow">
                       {itemCount}
                     </span>
                   )}
