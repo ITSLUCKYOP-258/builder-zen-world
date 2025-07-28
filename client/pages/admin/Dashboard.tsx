@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
+import ProtectedAdminRoute from '@/components/ProtectedAdminRoute';
 import { getProducts, deleteProduct, formatINR, type Product } from '@/services/products';
 import { addAllSampleProducts } from '@/utils/sampleProducts';
 import {
@@ -17,16 +18,11 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-export default function AdminDashboard() {
-  const { user, isAdmin, logout } = useAuth();
+function AdminDashboardContent() {
+  const { user, logout } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  // Redirect if not an authorized admin
-  if (!isAdmin) {
-    return <Navigate to="/admin/login" replace />;
-  }
 
   useEffect(() => {
     loadProducts();
@@ -306,5 +302,13 @@ export default function AdminDashboard() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <ProtectedAdminRoute>
+      <AdminDashboardContent />
+    </ProtectedAdminRoute>
   );
 }
