@@ -27,15 +27,15 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <Link to="/" className="flex items-center space-x-2 group animate-slide-in-left">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 animate-glow">
                 <span className="text-primary-foreground font-bold text-lg">S2</span>
               </div>
-              <span className="font-poppins font-bold text-xl text-foreground">S2 Wear</span>
+              <span className="font-poppins font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">S2 Wear</span>
             </Link>
 
             {/* Desktop Navigation */}
