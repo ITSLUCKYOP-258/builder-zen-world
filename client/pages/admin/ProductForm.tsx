@@ -738,3 +738,11 @@ function ProductFormContent() {
     </div>
   );
 }
+
+export default function ProductForm() {
+  return (
+    <ProtectedAdminRoute>
+      <ProductFormContent />
+    </ProtectedAdminRoute>
+  );
+}
