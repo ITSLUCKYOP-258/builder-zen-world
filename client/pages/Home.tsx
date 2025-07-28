@@ -301,52 +301,67 @@ export default function Home() {
             </div>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 animate-fade-in">
             <Link to="/products">
-              <Button size="lg" variant="outline" className="group">
+              <Button size="lg" variant="outline" className="group hover-lift animate-pulse-glow">
                 View All Products
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
               </Button>
             </Link>
           </div>
         </div>
+
+        {/* Background decoration */}
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent"></div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="text-center space-y-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
-                  <feature.icon className="h-8 w-8 text-primary" />
+              <div key={index} className={`text-center space-y-4 group hover-lift animate-slide-up stagger-delay-${index + 1}`}>
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-primary/20 transition-all duration-500 group-hover:scale-110 animate-float" style={{animationDelay: `${index * 2}s`}}>
+                  <feature.icon className="h-8 w-8 text-primary group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="font-poppins font-semibold text-xl text-foreground">
+                <h3 className="font-poppins font-semibold text-xl text-foreground group-hover:text-primary transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <p className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Background elements */}
+        <div className="absolute top-20 right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 left-20 w-32 h-32 bg-orange-500/5 rounded-full blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="font-poppins font-bold text-3xl lg:text-4xl text-primary-foreground mb-4">
+      <section className="py-20 bg-primary relative overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-poppins font-bold text-3xl lg:text-4xl text-primary-foreground mb-4 animate-slide-up">
             Ready to Upgrade Your Wardrobe?
           </h2>
-          <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto animate-fade-in stagger-delay-1">
             Join thousands of satisfied customers who've made the switch to S2
             Wear. Quality, comfort, and style - all in one place.
           </p>
           <Link to="/products">
-            <Button size="lg" variant="secondary" className="shadow-soft-lg">
+            <Button size="lg" variant="secondary" className="shadow-soft-lg hover-lift animate-bounce-in stagger-delay-2 hover-glow">
               Start Shopping
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
           </Link>
+        </div>
+
+        {/* Background animations */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-float"></div>
+          <div className="absolute top-20 right-20 w-32 h-32 bg-white rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-10 left-1/4 w-16 h-16 bg-white rounded-full animate-float" style={{animationDelay: '4s'}}></div>
+          <div className="absolute bottom-20 right-1/4 w-24 h-24 bg-white rounded-full animate-float" style={{animationDelay: '6s'}}></div>
         </div>
       </section>
     </div>
