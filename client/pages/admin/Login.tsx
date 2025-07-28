@@ -52,7 +52,7 @@ export default function AdminLogin() {
             <h1 className="font-poppins font-bold text-2xl text-foreground">Admin Portal</h1>
           </div>
           <p className="text-muted-foreground">
-            Sign in to access the admin dashboard
+            Sign in with an authorized admin account
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export default function AdminLogin() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-xl font-poppins">Sign In</CardTitle>
             <CardDescription>
-              Enter your credentials to access the admin panel
+              Only authorized admin emails can access the admin panel
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -133,11 +133,11 @@ export default function AdminLogin() {
           </CardContent>
         </Card>
 
-        {/* Demo Credentials Info */}
-        <Card className="border-0 bg-accent/50">
+        {/* Admin Access Info */}
+        <Card className="border-0 bg-blue-50 dark:bg-blue-950/20">
           <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground text-center">
-              <strong>Demo Access:</strong> Create an admin account or contact support for credentials
+            <p className="text-sm text-blue-700 dark:text-blue-300 text-center">
+              <strong>Admin Access:</strong> Contact the store owner to get your email authorized for admin access
             </p>
           </CardContent>
         </Card>
