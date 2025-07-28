@@ -234,11 +234,11 @@ export default function Home() {
 
                       <div className="p-4 space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                          <h3 className="font-medium text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
                             {product.name}
                           </h3>
-                          <div className="flex items-center space-x-1">
-                            <Star className="h-3 w-3 fill-current text-yellow-500" />
+                          <div className="flex items-center space-x-1 group-hover:scale-105 transition-transform duration-300">
+                            <Star className="h-3 w-3 fill-current text-yellow-500 animate-pulse" />
                             <span className="text-xs text-muted-foreground">
                               {product.rating || 4.5}
                             </span>
@@ -248,7 +248,7 @@ export default function Home() {
                         <div className="flex items-center justify-between">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-poppins font-semibold text-lg text-foreground">
+                              <span className="font-poppins font-semibold text-lg text-foreground group-hover:text-primary transition-colors duration-300">
                                 {formatINR(product.price)}
                               </span>
                               {product.originalPrice &&
@@ -260,7 +260,7 @@ export default function Home() {
                             </div>
                             {product.originalPrice &&
                               product.originalPrice > product.price && (
-                                <div className="text-xs text-green-600 font-medium">
+                                <div className="text-xs text-green-600 font-medium animate-pulse bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">
                                   {getDiscountPercentage(
                                     product.originalPrice,
                                     product.price,
@@ -287,7 +287,7 @@ export default function Home() {
                                   quantity: 1,
                                 });
                               }}
-                              className="group-hover:shadow-md transition-shadow"
+                              className="hover:scale-110 hover:bg-primary hover:text-white transition-all duration-300 hover-glow"
                             >
                               <ShoppingCart className="h-4 w-4" />
                             </Button>
