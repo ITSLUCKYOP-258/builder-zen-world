@@ -143,18 +143,18 @@ export default function Products() {
 
                     <div className="p-4 space-y-3">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors flex-1">
+                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors duration-300 flex-1 line-clamp-1">
                           {product.name}
                         </h3>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-3 w-3 fill-current text-yellow-500" />
+                        <div className="flex items-center space-x-1 group-hover:scale-105 transition-transform duration-300">
+                          <Star className="h-3 w-3 fill-current text-yellow-500 animate-pulse" />
                           <span className="text-xs text-muted-foreground">
                             {product.rating || 4.5}
                           </span>
                         </div>
                       </div>
 
-                      <p className="text-sm text-muted-foreground line-clamp-2">
+                      <p className="text-sm text-muted-foreground line-clamp-2 group-hover:text-foreground transition-colors duration-300">
                         {product.description}
                       </p>
 
@@ -162,13 +162,13 @@ export default function Products() {
                         {product.colors.slice(0, 3).map((color, index) => (
                           <div
                             key={index}
-                            className="w-4 h-4 rounded-full border border-border"
-                            style={{ backgroundColor: color.value }}
+                            className="w-4 h-4 rounded-full border border-border group-hover:scale-110 transition-transform duration-300 hover:scale-125"
+                            style={{ backgroundColor: color.value, animationDelay: `${index * 0.1}s` }}
                             title={color.name}
                           />
                         ))}
                         {product.colors.length > 3 && (
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-muted-foreground group-hover:text-primary transition-colors duration-300">
                             +{product.colors.length - 3} more
                           </span>
                         )}
@@ -177,7 +177,7 @@ export default function Products() {
                       <div className="flex items-center justify-between pt-2">
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-poppins font-bold text-lg text-foreground">
+                            <span className="font-poppins font-bold text-lg text-foreground group-hover:text-primary transition-colors duration-300">
                               {formatINR(product.price)}
                             </span>
                             {product.originalPrice && product.originalPrice > product.price && (
@@ -187,12 +187,12 @@ export default function Products() {
                             )}
                           </div>
                           {product.originalPrice && product.originalPrice > product.price && (
-                            <div className="text-xs text-green-600 font-medium">
+                            <div className="text-xs text-green-600 font-medium animate-pulse bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">
                               {getDiscountPercentage(product.originalPrice, product.price)}% OFF
                             </div>
                           )}
                         </div>
-                        <div className="text-xs text-muted-foreground text-right">
+                        <div className="text-xs text-muted-foreground text-right group-hover:text-foreground transition-colors duration-300">
                           <div>{product.sizes.length} sizes</div>
                           <div>{product.colors.length} colors</div>
                         </div>
