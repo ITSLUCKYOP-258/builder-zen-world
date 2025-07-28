@@ -40,13 +40,14 @@ export function Layout({ children }: LayoutProps) {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {navigation.map((item) => (
+              {navigation.map((item, index) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
+                  className={`text-foreground hover:text-primary transition-all duration-300 font-medium relative group animate-slide-up stagger-delay-${index + 1}`}
                 >
                   {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               ))}
             </div>
