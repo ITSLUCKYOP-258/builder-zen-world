@@ -35,8 +35,7 @@ const DEFAULT_COLORS = [
   { name: 'Green', value: '#16A34A' },
 ];
 
-export default function ProductForm() {
-  const { user } = useAuth();
+function ProductFormContent() {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = Boolean(id);
