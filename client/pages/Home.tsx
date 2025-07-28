@@ -89,20 +89,20 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8 max-w-4xl mx-auto">
             {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium">
-              <span>✨</span>
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium animate-bounce-in glass-effect">
+              <span className="animate-float">✨</span>
               <span>Elevate Your Style</span>
             </div>
 
             {/* Main Heading */}
             <div className="space-y-6">
-              <h1 className="font-poppins font-bold text-5xl lg:text-7xl text-white leading-tight">
+              <h1 className="font-poppins font-bold text-5xl lg:text-7xl text-white leading-tight animate-slide-up stagger-delay-1">
                 Fashion That
-                <span className="block bg-gradient-to-r from-primary to-orange-400 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-primary to-orange-400 bg-clip-text text-transparent animate-glow">
                   Defines You
                 </span>
               </h1>
-              <p className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed animate-fade-in stagger-delay-2">
                 Discover premium clothing that blends contemporary style with
                 unmatched comfort. Where fashion meets personality.
               </p>
