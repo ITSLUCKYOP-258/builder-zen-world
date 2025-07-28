@@ -138,15 +138,15 @@ export default function Home() {
                 </div>
                 <div className="text-sm text-white/80">Happy Customers</div>
               </div>
-              <div className="text-center">
-                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white flex items-center justify-center">
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white flex items-center justify-center group-hover:text-primary transition-colors duration-300">
                   4.9
-                  <Star className="h-5 w-5 fill-current text-yellow-400 ml-2" />
+                  <Star className="h-5 w-5 fill-current text-yellow-400 ml-2 animate-pulse" />
                 </div>
                 <div className="text-sm text-white/80">Customer Rating</div>
               </div>
-              <div className="text-center">
-                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white group-hover:text-primary transition-colors duration-300">
                   100%
                 </div>
                 <div className="text-sm text-white/80">Sustainable</div>
@@ -155,16 +155,18 @@ export default function Home() {
 
             {/* Scroll Indicator */}
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-              <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center">
-                <div className="w-1 h-3 bg-white/60 rounded-full mt-2"></div>
+              <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center glass-effect">
+                <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-20 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl animate-float" style={{animationDelay: '4s'}}></div>
+        <div className="absolute top-1/3 right-10 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-float" style={{animationDelay: '6s'}}></div>
       </section>
 
       {/* Featured Products Carousel */}
