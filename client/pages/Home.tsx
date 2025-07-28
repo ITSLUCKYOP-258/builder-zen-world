@@ -109,21 +109,21 @@ export default function Home() {
             </div>
 
             {/* Call to Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 animate-scale-in stagger-delay-3">
               <Link to="/products">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto group bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg shadow-2xl"
+                  className="w-full sm:w-auto group bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg shadow-2xl hover-lift animate-pulse-glow transition-all duration-300"
                 >
                   Explore Collection
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
                 </Button>
               </Link>
               <Link to="/products">
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg"
+                  className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg glass-effect hover-glow transition-all duration-300"
                 >
                   Shop Now
                 </Button>
@@ -131,9 +131,9 @@ export default function Home() {
             </div>
 
             {/* Social Proof Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-              <div className="text-center">
-                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white">
+            <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto animate-slide-up stagger-delay-4">
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="font-poppins font-bold text-3xl lg:text-4xl text-white group-hover:text-primary transition-colors duration-300">
                   15K+
                 </div>
                 <div className="text-sm text-white/80">Happy Customers</div>
