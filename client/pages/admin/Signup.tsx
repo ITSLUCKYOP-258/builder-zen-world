@@ -65,16 +65,31 @@ export default function AdminSignup() {
             <h1 className="font-poppins font-bold text-2xl text-foreground">Create Admin Account</h1>
           </div>
           <p className="text-muted-foreground">
-            Create your admin account to manage the store
+            Only authorized emails can create admin accounts
           </p>
         </div>
+
+        {/* Authorization Warning */}
+        <Card className="border-0 bg-orange-50 dark:bg-orange-950/20 shadow-soft mb-6">
+          <CardContent className="p-4">
+            <div className="flex items-start space-x-3">
+              <ShieldCheck className="h-5 w-5 text-orange-600 dark:text-orange-400 mt-0.5" />
+              <div>
+                <h3 className="font-medium text-orange-800 dark:text-orange-200">Admin Access Restricted</h3>
+                <p className="text-sm text-orange-700 dark:text-orange-300">
+                  Admin account creation is limited to pre-authorized email addresses only. Contact the store owner if you need admin access.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Signup Form */}
         <Card className="border-0 shadow-soft-lg">
           <CardHeader className="space-y-1">
             <CardTitle className="text-xl font-poppins">Sign Up</CardTitle>
             <CardDescription>
-              Create your admin account to get started
+              Only pre-authorized email addresses can create admin accounts
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
