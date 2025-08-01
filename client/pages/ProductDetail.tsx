@@ -81,6 +81,8 @@ export default function ProductDetail() {
     };
 
     loadProduct();
+    // Prevent auto-scroll when navigating to product
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [id]);
 
   if (loading) {
