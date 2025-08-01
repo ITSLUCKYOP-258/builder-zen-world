@@ -1,5 +1,0 @@
-# Netlify configuration disabled - using dev server only
-# [build]
-#   command = "npm run build:client"
-#   functions = "netlify/functions"
-#   publish = "dist/spa"
