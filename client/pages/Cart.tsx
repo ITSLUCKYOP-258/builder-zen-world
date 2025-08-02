@@ -29,7 +29,7 @@ export default function Cart() {
       return `${item.quantity}x ${item.name} (${item.size}, ${item.color}) - ${formatINR(item.price * item.quantity)}\n🔗 Product: ${productLink}`
     }).join('\n\n')
 
-    const message = `Hello! 👋\n\nI want to place my order from S2 Wear:\n\n${orderDetails}\n\n💰 Order Summary:\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease confirm my order and let me know the payment process. Looking forward to your response!\n\nThank you! 😊`
+    const message = `Hello! 👋\n\nI want to place my order from S2 Wears:\n\n${orderDetails}\n\n💰 Order Summary:\nSubtotal: ${formatINR(subtotal)}\nShipping: ${formatINR(shipping)}\nTotal: ${formatINR(total)}\n\nPlease confirm my order and let me know the payment process. Looking forward to your response!\n\nThank you! 😊`
 
     const phoneNumber = "919009402002" // S2 Wear WhatsApp number with country code
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
