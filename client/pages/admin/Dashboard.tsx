@@ -125,7 +125,7 @@ function AdminDashboardContent() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="font-poppins font-bold text-3xl text-foreground">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage your S2 Wear products and inventory without touching any code</p>
+            <p className="text-muted-foreground">Manage your S2 Wears products and inventory without touching any code</p>
           </div>
 
           <div className="flex gap-3">
