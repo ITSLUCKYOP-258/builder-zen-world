@@ -104,7 +104,7 @@ function AdminDashboardContent() {
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                   <span className="text-primary-foreground font-bold text-lg">S2</span>
                 </div>
-                <span className="font-poppins font-bold text-xl text-foreground">S2 Wear Admin</span>
+                <span className="font-poppins font-bold text-xl text-foreground">S2 Wears Admin</span>
               </Link>
             </div>
             
