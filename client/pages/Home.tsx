@@ -341,7 +341,7 @@ export default function Home() {
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto animate-fade-in stagger-delay-1">
             Join thousands of satisfied customers who've made the switch to S2
-            Wear. Quality, comfort, and style - all in one place.
+            Wears. Quality, comfort, and style - all in one place.
           </p>
           <Link to="/products">
             <Button size="lg" variant="secondary" className="shadow-soft-lg hover-lift animate-bounce-in stagger-delay-2 hover-glow">
