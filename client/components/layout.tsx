@@ -35,7 +35,7 @@ export function Layout({ children }: LayoutProps) {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 animate-glow">
                 <span className="text-primary-foreground font-bold text-lg">S2</span>
               </div>
-              <span className="font-poppins font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">S2 Wear</span>
+              <span className="font-poppins font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">S2 Wears</span>
             </Link>
 
             {/* Desktop Navigation */}
