@@ -57,7 +57,7 @@ export default function AdminSignup() {
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-xl">S2</span>
             </div>
-            <span className="font-poppins font-bold text-2xl text-foreground">S2 Wear</span>
+            <span className="font-poppins font-bold text-2xl text-foreground">S2 Wears</span>
           </Link>
           
           <div className="flex items-center justify-center space-x-2 mb-4">
