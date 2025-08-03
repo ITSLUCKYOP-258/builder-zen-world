@@ -175,7 +175,8 @@ function getLocalProducts(): Product[] {
     {
       id: "sample-1",
       name: "Premium Cotton T-Shirt",
-      price: 29.99,
+      price: 1999,
+      originalPrice: 2999,
       description:
         "Made from 100% organic cotton with a classic fit. Perfect for everyday wear.",
       category: "T-Shirts",
@@ -188,7 +189,7 @@ function getLocalProducts(): Product[] {
         "https://images.pexels.com/photos/6786894/pexels-photo-6786894.jpeg?auto=compress&cs=tinysrgb&w=800",
       ],
       features: ["100% Organic Cotton", "Machine Washable"],
-      rating: 4.8,
+      rating: 4.1,
       reviews: 124,
       createdAt: new Date(),
     },
