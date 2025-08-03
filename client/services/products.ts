@@ -17,6 +17,21 @@ import {
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 
+// Helper function to check network connectivity
+function isOnline(): boolean {
+  return navigator.onLine;
+}
+
+// Helper function to detect if we're in a problematic environment
+function isFirebaseBlocked(): boolean {
+  // Check for common signs that Firebase might be blocked
+  const userAgent = navigator.userAgent;
+  const isChrome = userAgent.includes('Chrome');
+  const hasExtensions = window.chrome && window.chrome.runtime;
+
+  return hasExtensions || !isOnline();
+}
+
 export interface Product {
   id?: string;
   name: string;
