@@ -22,12 +22,12 @@ const features = [
   {
     icon: Truck,
     title: "Free Shipping",
-    description: "Free delivery on orders over $50",
+    description: "Free delivery on all orders",
   },
   {
     icon: Shield,
     title: "Quality Guarantee",
-    description: "30-day money back guarantee",
+    description: "15-day money back guarantee",
   },
   {
     icon: Recycle,
