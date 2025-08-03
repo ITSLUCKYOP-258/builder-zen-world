@@ -196,7 +196,8 @@ function getLocalProducts(): Product[] {
     {
       id: "sample-2",
       name: "Cozy Pullover Hoodie",
-      price: 59.99,
+      price: 3999,
+      originalPrice: 5999,
       description: "Comfortable hoodie perfect for casual wear and layering.",
       category: "Hoodies",
       sizes: ["M", "L", "XL"],
@@ -208,7 +209,7 @@ function getLocalProducts(): Product[] {
         "https://images.pexels.com/photos/3253490/pexels-photo-3253490.jpeg?auto=compress&cs=tinysrgb&w=800",
       ],
       features: ["Cotton Blend", "Kangaroo Pocket"],
-      rating: 4.9,
+      rating: 4.1,
       reviews: 87,
       createdAt: new Date(),
     },
