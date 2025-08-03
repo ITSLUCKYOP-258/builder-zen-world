@@ -16,6 +16,8 @@ export default function Products() {
 
   useEffect(() => {
     loadProducts()
+    // Prevent auto-scroll when products page loads
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [])
 
   const loadProducts = async () => {
