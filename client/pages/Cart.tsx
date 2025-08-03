@@ -4,9 +4,15 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { formatINR } from '@/services/products'
+import { useEffect } from 'react'
 
 export default function Cart() {
   const { items: cartItems, updateQuantity, removeItem, totalPrice, itemCount } = useCart()
+
+  // Prevent auto-scroll when cart page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [])
 
   const handleUpdateQuantity = (id: number, size: string, color: string, newQuantity: number) => {
     updateQuantity(id, size, color, newQuantity)
