@@ -84,14 +84,26 @@ export async function getProducts(): Promise<Product[]> {
   // First try localStorage (faster and more reliable)
   const localProducts = getLocalProducts();
 
-  // Try Firebase in background to sync data
+  // Try Firebase with timeout and enhanced error handling
   try {
     console.log("Fetching products from Firebase...");
-    const productsRef = collection(db, PRODUCTS_COLLECTION);
-    const q = query(productsRef, orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
 
-    const firebaseProducts = querySnapshot.docs.map((doc) => ({
+    // Add timeout wrapper for Firebase calls
+    const firebasePromise = (async () => {
+      const productsRef = collection(db, PRODUCTS_COLLECTION);
+      const q = query(productsRef, orderBy("createdAt", "desc"));
+      return await getDocs(q);
+    })();
+
+    // Race between Firebase call and timeout
+    const querySnapshot = await Promise.race([
+      firebasePromise,
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Firebase timeout")), 5000)
+      ),
+    ]) as any;
+
+    const firebaseProducts = querySnapshot.docs.map((doc: any) => ({
       id: doc.id,
       ...doc.data(),
     })) as Product[];
@@ -106,12 +118,17 @@ export async function getProducts(): Promise<Product[]> {
       );
       return firebaseProducts;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.warn(
       "Firebase connection failed (using localStorage):",
-      error.message,
+      error?.message || "Unknown error",
     );
-    // This is common with Chrome extensions blocking requests
+    // This is common with Chrome extensions, network issues, or CORS problems
+
+    // Clear any problematic Firebase state
+    if (error?.message?.includes("Failed to fetch")) {
+      console.warn("Network fetch error detected - falling back to localStorage");
+    }
   }
 
   // Return localStorage data (includes sample products if empty)
