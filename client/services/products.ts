@@ -99,6 +99,12 @@ export async function getProducts(): Promise<Product[]> {
   // First try localStorage (faster and more reliable)
   const localProducts = getLocalProducts();
 
+  // Skip Firebase if we detect blocking or no internet
+  if (isFirebaseBlocked() || !isOnline()) {
+    console.log("Firebase blocked or offline, using localStorage only");
+    return localProducts;
+  }
+
   // Try Firebase with timeout and enhanced error handling
   try {
     console.log("Fetching products from Firebase...");
@@ -110,11 +116,11 @@ export async function getProducts(): Promise<Product[]> {
       return await getDocs(q);
     })();
 
-    // Race between Firebase call and timeout
+    // Race between Firebase call and timeout (shorter timeout)
     const querySnapshot = await Promise.race([
       firebasePromise,
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Firebase timeout")), 5000)
+        setTimeout(() => reject(new Error("Firebase timeout")), 3000)
       ),
     ]) as any;
 
@@ -138,11 +144,12 @@ export async function getProducts(): Promise<Product[]> {
       "Firebase connection failed (using localStorage):",
       error?.message || "Unknown error",
     );
-    // This is common with Chrome extensions, network issues, or CORS problems
 
-    // Clear any problematic Firebase state
+    // Log specific error types for debugging
     if (error?.message?.includes("Failed to fetch")) {
-      console.warn("Network fetch error detected - falling back to localStorage");
+      console.warn("Network fetch error - likely blocked by extension or CORS");
+    } else if (error?.message?.includes("timeout")) {
+      console.warn("Firebase timeout - slow connection");
     }
   }
 
