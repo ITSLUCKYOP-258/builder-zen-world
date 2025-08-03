@@ -69,6 +69,11 @@ export default function Home() {
     }
   }, [featuredProducts.length]);
 
+  // Prevent auto-scroll when home page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
