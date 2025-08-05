@@ -83,9 +83,23 @@ export default function ProductDetail() {
     };
 
     loadProduct();
+    loadRelatedProducts();
     // Prevent auto-scroll when navigating to product
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [id]);
+
+  const loadRelatedProducts = async () => {
+    try {
+      const allProducts = await getProducts();
+      // Filter out current product and get random related products
+      const otherProducts = allProducts.filter(p => p.id !== id);
+      // Shuffle and take first 4 products
+      const shuffled = otherProducts.sort(() => Math.random() - 0.5);
+      setRelatedProducts(shuffled.slice(0, 4));
+    } catch (error) {
+      console.error("Error loading related products:", error);
+    }
+  };
 
   if (loading) {
     return (
