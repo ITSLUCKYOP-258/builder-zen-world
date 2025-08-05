@@ -85,14 +85,14 @@ export default function ProductDetail() {
     loadProduct();
     loadRelatedProducts();
     // Prevent auto-scroll when navigating to product
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [id]);
 
   const loadRelatedProducts = async () => {
     try {
       const allProducts = await getProducts();
       // Filter out current product and get random related products
-      const otherProducts = allProducts.filter(p => p.id !== id);
+      const otherProducts = allProducts.filter((p) => p.id !== id);
       // Shuffle and take first 4 products
       const shuffled = otherProducts.sort(() => Math.random() - 0.5);
       setRelatedProducts(shuffled.slice(0, 4));
@@ -455,17 +455,25 @@ export default function ProductDetail() {
                             <div className="font-bold text-foreground">
                               {formatINR(relatedProduct.price)}
                             </div>
-                            {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price && (
-                              <div className="text-sm text-muted-foreground line-through">
-                                {formatINR(relatedProduct.originalPrice)}
+                            {relatedProduct.originalPrice &&
+                              relatedProduct.originalPrice >
+                                relatedProduct.price && (
+                                <div className="text-sm text-muted-foreground line-through">
+                                  {formatINR(relatedProduct.originalPrice)}
+                                </div>
+                              )}
+                          </div>
+                          {relatedProduct.originalPrice &&
+                            relatedProduct.originalPrice >
+                              relatedProduct.price && (
+                              <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-medium">
+                                {getDiscountPercentage(
+                                  relatedProduct.originalPrice,
+                                  relatedProduct.price,
+                                )}
+                                % OFF
                               </div>
                             )}
-                          </div>
-                          {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price && (
-                            <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-medium">
-                              {getDiscountPercentage(relatedProduct.originalPrice, relatedProduct.price)}% OFF
-                            </div>
-                          )}
                         </div>
                         <div className="flex items-center space-x-1">
                           {[...Array(5)].map((_, i) => (
