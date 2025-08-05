@@ -15,6 +15,7 @@ import {
   formatINR,
   getDiscountPercentage,
   getProduct,
+  getProducts,
   type Product,
 } from "@/services/products";
 
@@ -149,7 +150,7 @@ export default function ProductDetail() {
         ? `\n���� Special Offer: ${getDiscountPercentage(product.originalPrice, product.price)}% OFF! (Save ${formatINR(product.originalPrice - product.price)})`
         : "";
 
-    const message = `Hello! 👋\n\nI want to place my order for this amazing product:\n\n���️ ${product.name}\n💰 Price: ${formatINR(product.price)}${discountText}\n🔗 Product Link: ${productUrl}\n\nPlease let me know how to place the order. Thank you! 😊`;
+    const message = `Hello! 👋\n\nI want to place my order for this amazing product:\n\n������ ${product.name}\n💰 Price: ${formatINR(product.price)}${discountText}\n🔗 Product Link: ${productUrl}\n\nPlease let me know how to place the order. Thank you! 😊`;
 
     const phoneNumber = "919009880838";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
