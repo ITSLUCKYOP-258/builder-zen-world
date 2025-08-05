@@ -420,6 +420,76 @@ export default function ProductDetail() {
             </Card>
           </div>
         </div>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-16">
+            <h2 className="font-poppins font-bold text-2xl text-foreground mb-8">
+              You Might Also Like
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {relatedProducts.map((relatedProduct) => (
+                <Link
+                  key={relatedProduct.id}
+                  to={`/product/${relatedProduct.id}`}
+                  className="group"
+                >
+                  <Card className="overflow-hidden border-0 shadow-soft-lg hover:shadow-soft-xl transition-all duration-300 group-hover:scale-105">
+                    <div className="aspect-square bg-card overflow-hidden">
+                      <img
+                        src={relatedProduct.images[0] || "/placeholder.svg"}
+                        alt={relatedProduct.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                    <CardContent className="p-4">
+                      <div className="space-y-2">
+                        <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-medium">
+                          <span>{relatedProduct.category}</span>
+                        </div>
+                        <h3 className="font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                          {relatedProduct.name}
+                        </h3>
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <div className="font-bold text-foreground">
+                              {formatINR(relatedProduct.price)}
+                            </div>
+                            {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price && (
+                              <div className="text-sm text-muted-foreground line-through">
+                                {formatINR(relatedProduct.originalPrice)}
+                              </div>
+                            )}
+                          </div>
+                          {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price && (
+                            <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-medium">
+                              {getDiscountPercentage(relatedProduct.originalPrice, relatedProduct.price)}% OFF
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`h-3 w-3 ${
+                                i < Math.floor(relatedProduct.rating || 4.5)
+                                  ? "fill-current text-yellow-500"
+                                  : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                          <span className="text-xs text-muted-foreground ml-1">
+                            ({relatedProduct.reviews || 0})
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
